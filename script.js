@@ -2,6 +2,9 @@
 let price = 0
 let divideBetween = 0
 let dividedPrice = 0
+let names = []
+let input = 0
+let i = 0
 function askPrice(){
     price = prompt("Ingrese el monto a pagar")
     while (isNaN(price)) {
@@ -41,8 +44,21 @@ function toDivide() {
         }
         divide()
         showPrice()
+        askNames()
     }
-
+}
+//Nombre de los participantes
+function askNames() {
+    input = prompt("Ingrese el nombre del participante")
+    addNames()
+}
+function addNames(){
+    while (input!="0"){
+        i = i +1
+        names.push(input)
+        askNames()
+    }
+    console.log(names)
 }
 //Dividir
 function divide(){
