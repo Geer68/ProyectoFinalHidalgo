@@ -2,9 +2,11 @@
 let price = 0
 let divideBetween = 0
 let dividedPrice = 0
-let names = []
+const names = []
+const participants = []
 let input = 0
 let i = 0
+
 
 //Preguntemos precio
 function askPrice(){
@@ -27,73 +29,119 @@ function tips(){
         }
         let priceWTips = (price*(percentage/100))
         price = (+price + +priceWTips)
-        toDivide()
+        divide()
     } else if (decision.toLowerCase()=='n'){
-        toDivide()
+        divide()
     } else {
         alert("El caracter ingresado no es una opción válida")
         tips()
     }
      
 }
+//Cuanto puso cada uno, hacer con nombres (proximamente)
+class Participante {
+    constructor(id, nombre, monto){
+        this.id = id,
+        this.nombre = nombre,
+        this.monto = monto,
+        this.debe = debe
+    }
+    mostrarInfoEstado(){
+        console.log(`${this.nombre} puso ${this.monto}`)
+    }
+}
 
-//¿Cuantos son?
-function toDivide() {
-    let decision = prompt("Paga solo? S/N")
-    if (decision.toLowerCase()=='s'){
-        showPriceIndividual()
-    } else if (decision.toLowerCase()=='n'){
-        askNames()
-        divide()
-        showPriceGroup()
+function agregarParticipante(){
+    input = prompt(`Desea agregar un participante? S/N`)
+    if (input.toLowerCase()=='s'){
+        let nombreInput = prompt(`Ingrese el nombre del participante n${i}`)
+        let montoInput = prompt(`¿Cuanta plata puso ${nombreInput}?`)
+        const participanteNuevo = new Participante(names.length+1, nombreInput, montoInput)
+        console.log(participanteNuevo)
+        participants.push(participanteNuevo) 
+        agregarParticipante()
+
+        participanteNuevo.mostrarInfoEstado()
+        console.log(participants)
     } else {
-        alert("El caracter ingresado no es una opción válida")
-        toDivide()
+        divide()
     }
-}
-//¿Nombre de los participantes?
-function askNames() {
-    input = prompt(`Ingrese el nombre del participante n°${i + 1} (colocar '0' para no agregar mas)`)
-    addNames()
-}
-function addNames(){
-    while (input!="0"){
-        i = i +1
-        names.push(input)
-        askNames()
-    }
-    //console.log(names) check funcionamiento
 }
 
 //Dividir
 function divide(){
-    dividedPrice = price/(names.length)
+    dividedPrice = price/(participants.length)
+
 }
-//Cuanto puso cada uno, hacer con nombres (proximamente)
-//Quien debe a quien (proximamente)
+
+//Inicio
+function menu(){
+    let exitMenu = false
+    do{
+        exitMenu = preguntarOpcion(exitMenu)
+    }while(!exitMenu)
+} 
+
+function preguntarOpcion(salir){
+    let optionStart = parseInt(prompt(`Ingrese la opcion deseada
+        1. Iniciar nueva división
+        2. Ver resultado ultima división
+        3. Modificar divisiones previas
+        4. Ver todas las divisiones
+        0. Salir`))
+    
+        switch(optionStart){
+            case 1:
+                askPrice()
+                agregarParticipante()
+                showPrice()
+            break
+            case 2:
+                console.log("Resultado")
+            break
+            case 3:
+                console.log("Modificacion")
+            break
+            case 4:
+                console.log("Visualizar")
+            break
+            case 5:
+
+            break
+            case 0:
+                console.log(`Adios`)
+                salir = true
+                return salir
+            break
+            default:
+                console.log(`La opcion ingresada`)
+            break
+        }
+}
+//Quien debe a quien
+function debe(){
+    
+}
 //Realizar grafico (proximamente)
 //Almacenar varias cuentas (proximamente)
 //Tipo de cuentas (Comida, Transporte, Alquiler, Otro, etc)(proximamente)
 
 //Fin
-function showPriceIndividual() {
-    alert(`El precio a pagar de manera individual es ${price}`)
-    let decision = prompt("¿Desea realizar otra cuenta? S/N")
-    if (decision.toLowerCase()=='s'){
-        askPrice()
+
+function showPrice() {
+    if (participants.length == 1) {
+        alert(`El precio es: ${price}, a pagar individualmente es: ${dividedPrice}`)
     } else {
-        console.log("Fin")
-    }
-}
-function showPriceGroup() {
-    alert(`El precio es: ${price}, a pagar entre ${(names.length)} es: ${dividedPrice} c/u`)
-    let decision = prompt("¿Desea realizar otra cuenta? S/N")
-    if (decision.toLowerCase()=='s'){
-        askPrice()
-    } else {
-        console.log("Fin")
+        alert(`El precio es: ${price}, a pagar entre ${(participants.length)} es: ${dividedPrice} c/u`)
+        let decision = prompt("¿Desea realizar otra cuenta? S/N")
+        if (decision.toLowerCase()=='s'){
+            askPrice()
+        } else {
+            console.log("Fin")
+        }
     }
 }
 
 //Iniciamos
-askPrice()
+menu()
+//askPrice()
