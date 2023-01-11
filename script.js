@@ -5,7 +5,6 @@ let dividedPrice = 0
 const participants = []
 const deudaResult = []
 let input = 0
-let i = 0
 
 
 //Preguntemos precio
@@ -55,7 +54,7 @@ class Participante {
 function agregarParticipante(){
     input = prompt(`Desea agregar un participante? S/N`)
     if (input.toLowerCase()=='s'){
-        let nombreInput = prompt(`Ingrese el nombre del participante n${i}`)
+        let nombreInput = prompt(`Ingrese el nombre del participante n${participants.length}`)
         let montoInput = prompt(`¿Cuanta plata puso ${nombreInput}?`)
         const participanteNuevo = new Participante(participants.length+1, nombreInput, montoInput)
         console.log(participanteNuevo)
@@ -105,7 +104,7 @@ function preguntarOpcion(salir){
                 showPrice()
             break
             case 3:
-                console.log("Modificacion")
+                console.log(`Moidifica`)
             break
             case 4:
                 console.log("Visualizar")
