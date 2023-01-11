@@ -2,8 +2,8 @@
 let price = 0
 let divideBetween = 0
 let dividedPrice = 0
-const names = []
 const participants = []
+const deudaResult = []
 let input = 0
 let i = 0
 
@@ -12,7 +12,7 @@ let i = 0
 function askPrice(){
     price = prompt("Ingrese el monto a pagar")
     while (isNaN(price)) {
-        alert("El valor ingresado no es un número, reintente")
+        alert(` ${price} no es un número, reintente`)
         askPrice()
     }
     tips()
@@ -22,9 +22,10 @@ function askPrice(){
 function tips(){
     let decision = prompt("Desea dejar propina? S/N")
     if (decision.toLowerCase()=='s'){
-        let percentage = parseInt(prompt("Ingrese el porcentaje (10=10%)")) 
+        let percentage = parseInt(prompt(`Ingrese el porcentaje 
+        ej: (10=10%)`)) 
         while (isNaN(percentage)) {
-            alert("El valor ingresado no es un número, reintente")
+            alert(` ${desicion}no es un número, reintente`)
             tips()
         }
         let priceWTips = (price*(percentage/100))
@@ -33,7 +34,7 @@ function tips(){
     } else if (decision.toLowerCase()=='n'){
         divide()
     } else {
-        alert("El caracter ingresado no es una opción válida")
+        alert(`${decision} no es una opción válida`)
         tips()
     }
      
@@ -44,7 +45,7 @@ class Participante {
         this.id = id,
         this.nombre = nombre,
         this.monto = monto,
-        this.debe = debe
+        this.debe = 0
     }
     mostrarInfoEstado(){
         console.log(`${this.nombre} puso ${this.monto}`)
@@ -56,15 +57,18 @@ function agregarParticipante(){
     if (input.toLowerCase()=='s'){
         let nombreInput = prompt(`Ingrese el nombre del participante n${i}`)
         let montoInput = prompt(`¿Cuanta plata puso ${nombreInput}?`)
-        const participanteNuevo = new Participante(names.length+1, nombreInput, montoInput)
+        const participanteNuevo = new Participante(participants.length+1, nombreInput, montoInput)
         console.log(participanteNuevo)
         participants.push(participanteNuevo) 
         agregarParticipante()
 
         participanteNuevo.mostrarInfoEstado()
         console.log(participants)
-    } else {
+    } else if (input.toLowerCase()=='n'){
         divide()
+    } else {
+        alert(`${input} no es una opción válida`)
+        agregarParticipante()
     }
 }
 
@@ -94,10 +98,11 @@ function preguntarOpcion(salir){
             case 1:
                 askPrice()
                 agregarParticipante()
+                deber()
                 showPrice()
             break
             case 2:
-                console.log("Resultado")
+                showPrice()
             break
             case 3:
                 console.log("Modificacion")
@@ -119,8 +124,18 @@ function preguntarOpcion(salir){
         }
 }
 //Quien debe a quien
-function debe(){
-    
+function deber(){
+    for (const participanteNuevo of participants) {
+        participanteNuevo.debe = dividedPrice - participanteNuevo.monto
+        //NO DEBE NADA
+        if (participanteNuevo.debe <= 0) {
+            participanteNuevo.debe = 0
+        } else {
+            deudaResult.push(` ${participanteNuevo.nombre} debe ${participanteNuevo.debe}`)
+        }
+        console.log(participanteNuevo.id)
+        console.log(participanteNuevo.debe)
+    }
 }
 //Realizar grafico (proximamente)
 //Almacenar varias cuentas (proximamente)
@@ -133,15 +148,9 @@ function showPrice() {
         alert(`El precio es: ${price}, a pagar individualmente es: ${dividedPrice}`)
     } else {
         alert(`El precio es: ${price}, a pagar entre ${(participants.length)} es: ${dividedPrice} c/u`)
-        let decision = prompt("¿Desea realizar otra cuenta? S/N")
-        if (decision.toLowerCase()=='s'){
-            askPrice()
-        } else {
-            console.log("Fin")
-        }
+        alert(deudaResult)
     }
 }
-
 //Iniciamos
 menu()
 //askPrice()
