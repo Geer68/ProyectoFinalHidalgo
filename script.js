@@ -2,9 +2,10 @@
 let price = 0
 let divideBetween = 0
 let dividedPrice = 0
-const participants = []
 const deudaResult = []
+let participants = []
 let input = 0
+
 
 
 //Preguntemos precio
@@ -90,7 +91,8 @@ function preguntarOpcion(salir){
         1. Iniciar nueva división
         2. Ver resultado ultima división
         3. Modificar divisiones previas
-        4. Ver todas las divisiones
+        4. Modificar nombre de particpantes previos
+        5. Ver todas las divisiones (no)
         0. Salir`))
     
         switch(optionStart){
@@ -104,13 +106,17 @@ function preguntarOpcion(salir){
                 showPrice()
             break
             case 3:
-                console.log(`Moidifica`)
+                edit(participants, optionStart)
+                deber()
+                showPrice()
             break
             case 4:
-                console.log("Visualizar")
+                edit(participants, optionStart)
+                deber()
+                showPrice()
             break
             case 5:
-
+                console.log(`Todas`)
             break
             case 0:
                 console.log(`Adios`)
@@ -118,7 +124,7 @@ function preguntarOpcion(salir){
                 return salir
             break
             default:
-                console.log(`La opcion ingresada`)
+                alert(`${optionStart} no es una opción válida`)
             break
         }
 }
@@ -136,6 +142,22 @@ function deber(){
         console.log(participanteNuevo.debe)
     }
 }
+//Modificar
+//Hacer reutilizable para buscar por nombre o montos (proximamente)
+function edit(array, optionStart) {
+    let updParticipantM = 0
+    let updParticipantN = ''
+    if (optionStart == 3){
+        let searchedName = prompt(`Ingrese nombre del participante a cambiar monto`)
+        let foundedID = array.findIndex((participante) => participante.nombre.toLowerCase() == searchedName.toLowerCase())
+        updParticipantN = array[foundedID].monto = prompt('Reingrese monto')
+    } else{
+        let searchedName = prompt(`Ingrese el nombre que desea cambiar`)
+        let foundedID = array.findIndex((participante) => participante.nombre.toLowerCase() == searchedName.toLowerCase())
+        updParticipantM = array[foundedID].nombre = prompt('Reingrese nombre')
+    }
+   console.log(participants)
+}
 //Realizar grafico (proximamente)
 //Almacenar varias cuentas (proximamente)
 //Tipo de cuentas (Comida, Transporte, Alquiler, Otro, etc)(proximamente)
@@ -152,4 +174,4 @@ function showPrice() {
 }
 //Iniciamos
 menu()
-//askPrice()
+
