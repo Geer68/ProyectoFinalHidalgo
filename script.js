@@ -7,6 +7,7 @@ let participants = []
 let cobrarResult = []
 let input = 0
 let times = 0
+let timesEdit = 0
 
 
 //Preguntemos precio
@@ -54,18 +55,15 @@ class Participante {
 }
 
 function agregarParticipante() {
-    if (times <= 1){
+    if (times <= 1) {
         input = prompt(`Desea agregar un participante? S/N`)
         if (input.toLowerCase() == 's') {
-            let nombreInput = prompt(`Ingrese el nombre del participante n${participants.length}`)
+            let nombreInput = prompt(`Ingrese el nombre del participante n${participants.length + 1}`)
             let montoInput = prompt(`¿Cuanta plata puso ${nombreInput}?`)
             const participanteNuevo = new Participante(participants.length + 1, nombreInput, montoInput)
             console.log(participanteNuevo)
             participants.push(participanteNuevo)
-            console.log()
             agregarParticipante()
-            
-    
             //participanteNuevo.mostrarInfoEstado()
             //console.log(participants)
         } else if (input.toLowerCase() == 'n') {
@@ -74,10 +72,10 @@ function agregarParticipante() {
             alert(`${input} no es una opción válida`)
             agregarParticipante()
         }
-    } else{
+    } else {
         participants = []
         times = 0
-        agregarParticipante()   
+        agregarParticipante()
     }
 
 }
@@ -85,7 +83,6 @@ function agregarParticipante() {
 //Dividir
 function divide() {
     dividedPrice = price / (participants.length)
-
 }
 
 //Inicio
@@ -95,7 +92,6 @@ function menu() {
         exitMenu = preguntarOpcion(exitMenu)
     } while (!exitMenu)
 }
-
 function preguntarOpcion(salir) {
     let optionStart = parseInt(prompt(`Ingrese la opcion deseada
         1. Iniciar nueva división
@@ -120,6 +116,7 @@ function preguntarOpcion(salir) {
             edit(participants, optionStart)
             deber()
             showPrice()
+            timesEdit++
             break
         case 4:
             edit(participants, optionStart)
@@ -141,7 +138,8 @@ function preguntarOpcion(salir) {
 }
 //Quien debe a quien
 function deber() {
-    if (deudaResult == '' ){
+    console.log(times)
+    if (times = 0) {
         for (const participanteNuevo of participants) {
             participanteNuevo.debe = dividedPrice - participanteNuevo.monto
             //NO DEBE NADA
@@ -155,21 +153,14 @@ function deber() {
             console.log(participanteNuevo.debe)
         }
     } else {
-        deudaResult = []
         cobrarResult = []
-        for (const participanteNuevo of participants) {
-            participanteNuevo.debe = dividedPrice - participanteNuevo.monto
-            //NO DEBE NADA
-            if (participanteNuevo.debe <= 0) {
-                cobrarResult.push(`${participanteNuevo.nombre}`)
-            } else {
-                deudaResult.push(` ${participanteNuevo.nombre} debe ${participanteNuevo.debe}`)
-            }
-            console.log(participanteNuevo.id)
-            console.log(participanteNuevo.debe)
-        }
+        deudaResult = []
+        times = 0
+        deber()
     }
+
 }
+
 function cobrar() {
 
     alert(``)
@@ -183,10 +174,16 @@ function edit(array, optionStart) {
         let updParticipantM = 0
         let updParticipantN = ''
         if (optionStart == 3) {
+            updParticipantM = 0
+            updParticipantN = ''
+            deudaResult = []
             let searchedName = prompt(`Ingrese nombre del participante a cambiar monto`)
             let foundedID = array.findIndex((participante) => participante.nombre.toLowerCase() == searchedName.toLowerCase())
             updParticipantM = array[foundedID].monto = prompt('Reingrese monto')
         } else {
+            deudaResult = []
+            updParticipantM = 0
+            updParticipantN = ''
             let searchedName = prompt(`Ingrese el nombre que desea cambiar`)
             let foundedID = array.findIndex((participante) => participante.nombre.toLowerCase() == searchedName.toLowerCase())
             updParticipantN = array[foundedID].nombre = prompt('Reingrese nombre')
@@ -213,8 +210,8 @@ function showPrice() {
         alert(`El precio es: ${price}, a pagar entre ${(participants.length)} es: ${dividedPrice} c/u`)
         if (deudaResult == '') {
             return
-        }   
-        alert(`${deudaResult} a ${cobrarResult}` )
+        }
+        alert(`${deudaResult} a ${cobrarResult}`)
     }
 }
 //Iniciamos
