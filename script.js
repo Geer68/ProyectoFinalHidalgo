@@ -1,8 +1,7 @@
 //Variables
-let price = 0
-let divideBetween = 0
+let price = document.getElementById("price")
+let results = document.getElementById("results")
 let dividedPrice = 0
-//Declaradas no como constantes, error
 let deudaResult = []
 let participants = []
 let cobrarResult = []
@@ -10,16 +9,6 @@ let cobrarResult = []
 let input = 0
 let timesEdit = 0
 
-
-//Preguntemos precio
-function askPrice() {
-    price = prompt("Ingrese el monto a pagar")
-    while (isNaN(price)) {
-        alert(` ${price} no es un número, reintente`)
-        askPrice()
-    }
-    tips()
-}
 
 //¿Propina?
 function tips() {
@@ -45,7 +34,7 @@ function tips() {
 //Cuanto puso cada uno, hacer con nombres (proximamente)
 class Participante {
     constructor(id, nombre, monto) {
-        this.id = id,
+            this.id = id,
             this.nombre = nombre,
             this.monto = monto,
             this.debe = 0
@@ -55,35 +44,51 @@ class Participante {
     }
 }
 
-function agregarParticipante(optionStart) {
-    let times = + optionStart
-    //console.log(times)
-    if (times >= 1) {
-        participants = []
-    }
-    input = prompt(`Desea agregar un participante? S/N`)
-    if (input.toLowerCase() == 's') {
-        let nombreInput = prompt(`Ingrese el nombre del participante n${participants.length + 1}`)
-        let montoInput = prompt(`¿Cuanta plata puso ${nombreInput}?`)
-        const participanteNuevo = new Participante(participants.length + 1, nombreInput, montoInput)
-        //console.log(participanteNuevo)
-        participants.push(participanteNuevo)
-        agregarParticipante()
-        //participanteNuevo.mostrarInfoEstado()
-        //console.log(participants)
-    } else if (input.toLowerCase() == 'n') {
-        divide()
-    } else {
-        alert(`${input} no es una opción válida`)
-        agregarParticipante()
-    }
+function agregarParticipante() {
+    let nombreInput = document.getElementById("name")
+    let montoInput = document.getElementById("monto")
+    const participanteNuevo = new Participante(participants.length + 1, nombreInput.value, montoInput.value)
+    console.log(participanteNuevo)
+    participants.push(participanteNuevo)
+    console.log(participants)
+    nombreInput.value = '', montoInput.value = ''
+    showParticipants(participants)
 }
 
-
+//Limpiar
+function clearParticipants (){
+    participants = []
+    showParticipants(participants)
+}
 //Dividir
 function divide() {
     dividedPrice = price / (participants.length)
 }
+
+
+function showParticipants (participants) {
+    results.innerHTML = ""
+    for(let p of participants){
+        let nuevoParticipant = document.createElement("div")
+        nuevoParticipant.innerHTML = `
+        <div class="row" id="${p.id}">
+            <h2>${p.nombre}</h2>
+            <h3>${p.monto}</h3>
+        </div>`
+        results.appendChild(nuevoParticipant)
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
 
 //Inicio
 function menu() {
@@ -210,6 +215,9 @@ function showPrice() {
 }
 
 //Iniciamos
-let buttonStart = document.getElementById("start")
-buttonStart.onclick = () => { menu() }
+let buttonStart = document.getElementById("add")
+buttonStart.onclick = () => {
+    agregarParticipante()}
 
+let buttonDelete = document.getElementById("erase")
+buttonDelete.onclick = () => {clearParticipants ()}

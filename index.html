@@ -8,20 +8,61 @@
     <link rel="stylesheet" href="style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <title>2daEntrega</title>
+    <title></title>
 </head>
 
 <body>
-    <div class="normalContainer">
-        <h1 style="color: #a30036; font-family: 'Nunito', sans-serif;">PreEntega2Hidalgo</h1>
+    <div class="startContainer">
+        <div class="form__group field">
+            <input type="number" class="form__field" placeholder="price" name="name" id='price' required />
+            <label for="name" class="form__label">Precio</label>
+        </div>
+        <div class="form__group field">
+            <input type="number" class="form__field" placeholder="tips" name="name" id='tips' required />
+            <label for="name" class="form__label">Propinas</label>
+        </div>
+        <!-- <label class="switch">
+            <input type="checkbox">
+            <span class="slider round"></span>
+        </label> -->
+    </div>
+    <div class="participants">
+        <div class="form__group field">
+            <input type="input" class="form__field" placeholder="price" name="name" id='name' required />
+            <label for="name" class="form__label">Integrante</label>
+        </div>
+        <div class="form__group field">
+            <input type="number" class="form__field" placeholder="price" name="name" id='monto' required />
+            <label for="name" class="form__label">Monto</label>
+        </div>
+        
+    </div>
+    <div class="interface">
+        <button class="button-82-pushable" role="button" id="add">
+            <span class="button-82-shadow"></span>
+            <span class="button-82-edge"></span>
+            <span class="button-82-front text">
+                Agregar participante
+            </span>
+        </button>
         <button class="button-82-pushable" role="button" id="start">
             <span class="button-82-shadow"></span>
             <span class="button-82-edge"></span>
             <span class="button-82-front text">
-                Iniciar
+                Calcular
+            </span>
+        </button>
+        <button class="button-82-pushable" role="button" id="erase">
+            <span class="button-82-shadow"></span>
+            <span class="button-82-edge"></span>
+            <span class="button-82-front text">
+                Eliminar
             </span>
         </button>
     </div>
+
+    <div id="results" class="rowContainer"></div>
+
 
     <script src="script.js"></script>
 </body>
