@@ -1,4 +1,4 @@
-/* CSS */
+
 .button-82-pushable {
     position: relative;
     border: none;
@@ -244,7 +244,7 @@ input:checked + .slider:before {
     margin-right: 10px;
   }
 }
-.participants {
+.chargeParticipants {
   display: flex;
   flex-direction: row;
   div {
@@ -273,9 +273,23 @@ input:checked + .slider:before {
     margin: 0px;
   }
 }
-.row{
+.participantsDescription{
+  min-width: 680px;
   display: flex;
   flex-direction: row;
+  align-items: center;
+  justify-items: left;
+  margin-top: 15px;
+  h3 {
+    min-width: 150px;
+    padding-right: 150px;
+    color: #fff;
+    margin: 0px;
+  }
+}
+.ResultContainer {
+  display: flex;
+  flex-direction: column;
   align-items: center;
   justify-items: left;
   margin-top: 15px;

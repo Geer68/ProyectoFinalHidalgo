@@ -19,14 +19,18 @@
         </div>
         <div class="form__group field">
             <input type="number" class="form__field" placeholder="tips" name="name" id='tips' required />
-            <label for="name" class="form__label">Propinas</label>
+            <label for="name" class="form__label" >Propinas</label>
         </div>
+        <h2 style="color: #ccc;">%</h2>
         <!-- <label class="switch">
             <input type="checkbox">
             <span class="slider round"></span>
         </label> -->
     </div>
-    <div class="participants">
+
+    
+
+    <div class="chargeParticipants">
         <div class="form__group field">
             <input type="input" class="form__field" placeholder="price" name="name" id='name' required />
             <label for="name" class="form__label">Integrante</label>
@@ -59,9 +63,24 @@
                 Eliminar
             </span>
         </button>
+        <button class="button-82-pushable" role="button" id="new">
+            <span class="button-82-shadow"></span>
+            <span class="button-82-edge"></span>
+            <span class="button-82-front text">
+                Nueva división
+            </span>
+        </button>
     </div>
+    
+    <div id="deben" class="ResultContainer"></div>
 
-    <div id="results" class="rowContainer"></div>
+    <div id="participantList" class="rowContainer">
+        <div class="participantsDescription">
+            <h3>Num</h3>
+            <h3>Nombre</h3>
+            <h3>Monto</h3>
+        </div>
+    </div>
 
 
     <script src="script.js"></script>
