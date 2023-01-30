@@ -1,11 +1,18 @@
 //Tareas
-//  1. Asociar limpiar a Nueva division
+//  1. Asociar limpiar a Nueva division             SOLUCIONADO
 //  1. Eliminar participante con boton interactivo?
-//  1. Generar emision de resultado
+//  1. Generar emision de resultado                 SOLUCIONADO
 //  1. Restriccion de no integrante                 SOLUCIONADO
 //  1. Dark mode
 //  2. Estilizar listado                            SOLUCIONADO 
 //  1. Revisar aplicado de Propina
+//  1. Eliminar participante bt find()
+//  1. Actualizar monto/nombre, nuevo boton/modal?
+//  2. Eliminar variables globales incesarias
+//  1. Actualización infinita de precio con tips
+//  1. Almacenar datos en setLocal
+//  3. Restaurante y Grupales, sin un precio fijo
+//  4. Generar texto para compartir
 
 
 //Comentar Ctrl + K, Ctrl + C
@@ -17,10 +24,13 @@ let results = document.getElementById("participantList")
 document.getElementById("tips").defaultValue = 0
 let deben = document.getElementById("deben")
 
+//Eliminar
 let deudaResult = []
 let participants = []
 let cobrarResult = []
 
+
+//????????
 let input = 0
 let timesEdit = 0
 
@@ -75,6 +85,12 @@ function agregarParticipante() {
 function clearEverything() {
     participants = []
     showParticipants(participants)
+    results.innerHTML = `<div class="participantsDescription">
+                            <h3>Num</h3>
+                            <h3>Nombre</h3>
+                            <h3>Monto</h3>
+                        </div>`
+    deben.innerHTML = ""
     //Limpiar tips y precio
 }
 
@@ -276,11 +292,16 @@ buttonAdd.onclick = () => {
 
 let buttonDelete = document.getElementById("erase")
 buttonDelete.onclick = () => { 
-    clearEverything() 
+    //REHACER 
 }
 
 let buttonStart = document.getElementById("start")
 buttonStart.onclick = () => {
     tips(),
     divide()
+}
+
+let buttonNew = document.getElementById("new")
+buttonNew.onclick = () => {
+    clearEverything()
 }
