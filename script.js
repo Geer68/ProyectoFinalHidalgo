@@ -13,7 +13,7 @@
 //Variables
 let price = document.getElementById("price")
 // document.getElementById("price").defaultValue = 0
-let results = document.getElementById("results")
+let results = document.getElementById("participantList")
 document.getElementById("tips").defaultValue = 0
 let deben = document.getElementById("deben")
 
@@ -84,6 +84,27 @@ function divide() {
     let dividedPrice = price.value / (participants.length)
     console.log(dividedPrice)
     console.log(participants)
+    deber(dividedPrice)
+}
+
+function deber(dividedPrice) {
+    if ((timesEdit = 1)) {
+        cobrarResult = []
+        deudaResult = []
+    }
+    for (const participanteNuevo of participants) {
+        participanteNuevo.debe = dividedPrice - participanteNuevo.monto
+        //NO DEBE NADA
+        if (participanteNuevo.debe < 0) {
+            cobrarResult.push(`${participanteNuevo.nombre}`)
+        } else {
+            deudaResult.push(` ${participanteNuevo.nombre} debe ${participanteNuevo.debe}`)
+        }
+        //console.log(participanteNuevo.id)
+        //console.log(participanteNuevo.debe)
+    }
+    console.log(cobrarResult)
+    console.log(deudaResult)
     showResult(dividedPrice)
 }
 
@@ -128,12 +149,13 @@ function showResult(dividedPrice) {
         finalResult.innerHTML =`<div class="row">
                                     <h2>El precio es: ${price.value}, a pagar individualmente es: ${dividedPrice}</h2>
                                 </div>`
-        results.appendChild(finalResult)
+        deben.appendChild(finalResult)
     } else {
         finalResult.innerHTML = `<div class="row">
-        <h2>El precio es: ${price.value}, a pagar entre ${(participants.length)} es: ${dividedPrice} c/u</h2>
-        </div>`
-        results.appendChild(finalResult)
+                                <h2>El precio es: ${price.value}, a pagar entre ${(participants.length)} es: ${dividedPrice} c/u</h2>
+                                <h3> ${deudaResult} a ${cobrarResult} </h3>
+                                </div>`
+        deben.appendChild(finalResult)
     }
 }
 
@@ -190,23 +212,7 @@ function showResult(dividedPrice) {
 // }
 
 //Quien debe a quien
-function deber() {
-    if ((timesEdit = 1)) {
-        cobrarResult = []
-        deudaResult = []
-    }
-    for (const participanteNuevo of participants) {
-        participanteNuevo.debe = dividedPrice - participanteNuevo.monto
-        //NO DEBE NADA
-        if (participanteNuevo.debe < 0) {
-            cobrarResult.push(`${participanteNuevo.nombre}`)
-        } else {
-            deudaResult.push(` ${participanteNuevo.nombre} debe ${participanteNuevo.debe}`)
-        }
-        //console.log(participanteNuevo.id)
-        //console.log(participanteNuevo.debe)
-    }
-}
+
 
 
 //Modificar Nombre o Monto
