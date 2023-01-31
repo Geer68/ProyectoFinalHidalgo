@@ -5,10 +5,11 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
     <link rel="stylesheet" href="style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <title></title>
 </head>
 
 <body>
@@ -19,16 +20,16 @@
         </div>
         <div class="form__group field">
             <input type="number" class="form__field" placeholder="tips" name="name" id='tips' required />
-            <label for="name" class="form__label" >Propinas</label>
+            <label for="name" class="form__label">Propinas</label>
         </div>
-        <h2 style="color: #ccc;">%</h2>
+        <h2 style="color: rgb(81, 81, 81);">%</h2>
         <!-- <label class="switch">
             <input type="checkbox">
             <span class="slider round"></span>
         </label> -->
     </div>
 
-    
+
 
     <div class="chargeParticipants">
         <div class="form__group field">
@@ -39,7 +40,7 @@
             <input type="number" class="form__field" placeholder="price" name="name" id='monto' required />
             <label for="name" class="form__label">Monto</label>
         </div>
-        
+
     </div>
     <div class="interface">
         <button class="button-82-pushable" role="button" id="add">
@@ -72,7 +73,19 @@
             </span>
         </button>
     </div>
-    
+    <!-- Trigger/Open The Modal -->
+    <button id="myBtn">Open Modal</button>
+
+    <!-- The Modal -->
+    <div id="myModal" class="modal">
+
+        <!-- Modal content -->
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <p>Some text in the Modal..</p>
+        </div>
+
+    </div>
     <div id="deben" class="ResultContainer"></div>
 
     <div id="participantList" class="rowContainer">
@@ -83,6 +96,9 @@
         </div>
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+        crossorigin="anonymous"></script>
 
     <script src="script.js"></script>
 </body>

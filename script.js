@@ -1,18 +1,19 @@
 //Tareas
-//  1. Asociar limpiar a Nueva division             SOLUCIONADO
+//  1. Asociar limpiar a Nueva division                 SOLUCIONADO
 //  1. Eliminar participante con boton interactivo?
-//  1. Generar emision de resultado                 SOLUCIONADO
-//  1. Restriccion de no integrante                 SOLUCIONADO
+//  1. Generar emision de resultado                     SOLUCIONADO
+//  1. Restriccion de no integrante                     SOLUCIONADO
 //  1. Dark mode
-//  2. Estilizar listado                            SOLUCIONADO 
+//  2. Estilizar listado                                SOLUCIONADO 
 //  1. Revisar aplicado de Propina
 //  1. Eliminar participante bt find()
-//  1. Actualizar monto/nombre, nuevo boton/modal?
+//  1. Actualizar monto/nombre, nuevo boton/modal?      TRABAJANDO FALTA JS
 //  2. Eliminar variables globales incesarias
 //  1. Actualización infinita de precio con tips
 //  1. Almacenar datos en setLocal
 //  3. Restaurante y Grupales, sin un precio fijo
 //  4. Generar texto para compartir
+//  1. Incluir operadores ternarios
 
 
 //Comentar Ctrl + K, Ctrl + C
@@ -304,4 +305,30 @@ buttonStart.onclick = () => {
 let buttonNew = document.getElementById("new")
 buttonNew.onclick = () => {
     clearEverything()
+}
+
+// Get the modal
+var modal = document.getElementById("myModal");
+
+// Get the button that opens the modal
+var btn = document.getElementById("myBtn");
+
+// Get the <span> element that closes the modal
+var span = document.getElementsByClassName("close")[0];
+
+// When the user clicks on the button, open the modal
+btn.onclick = function() {
+  modal.style.display = "block";
+}
+
+// When the user clicks on <span> (x), close the modal
+span.onclick = function() {
+  modal.style.display = "none";
+}
+
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+  if (event.target == modal) {
+    modal.style.display = "none";
+  }
 }
