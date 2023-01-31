@@ -40,8 +40,8 @@
             <input type="number" class="form__field" placeholder="price" name="name" id='monto' required />
             <label for="name" class="form__label">Monto</label>
         </div>
-
     </div>
+
     <div class="interface">
         <button class="button-82-pushable" role="button" id="add">
             <span class="button-82-shadow"></span>
@@ -57,13 +57,11 @@
                 Calcular
             </span>
         </button>
-        <button class="button-82-pushable" role="button" id="erase">
-            <span class="button-82-shadow"></span>
+        <button id="myBtn" class="button-82-pushable"><span class="button-82-shadow"></span>
             <span class="button-82-edge"></span>
             <span class="button-82-front text">
                 Modificar
             </span>
-            <!-- Que levante un modal con campos para modificar, nombre, monto -->
         </button>
         <button class="button-82-pushable" role="button" id="new">
             <span class="button-82-shadow"></span>
@@ -73,18 +71,50 @@
             </span>
         </button>
     </div>
+
     <!-- Trigger/Open The Modal -->
-    <button id="myBtn">Open Modal</button>
+   
 
     <!-- The Modal -->
     <div id="myModal" class="modal">
-
         <!-- Modal content -->
         <div class="modal-content">
             <span class="close">&times;</span>
-            <p>Some text in the Modal..</p>
+            <div class="textContainer">
+                <button class="button-82-pushable" role="button" id="changeMonto">
+                    <span class="button-82-shadow"></span>
+                    <span class="button-82-edge"></span>
+                    <span class="button-82-front text">
+                        Modificar monto
+                    </span>
+                </button>
+                <button class="button-82-pushable" role="button" id="changeName">
+                    <span class="button-82-shadow"></span>
+                    <span class="button-82-edge"></span>
+                    <span class="button-82-front text">
+                        Cambiar nombre
+                    </span>
+                </button>
+            </div>
+            <div class="chargeParticipants">
+                <div class="form__group field">
+                    <input type="input" class="form__field" placeholder="price" name="name" id='name_monto' required />
+                    <label for="name" class="form__label">Integrante</label>
+                </div>
+                <div class="form__group field">
+                    <input type="number" class="form__field" placeholder="price" name="name" id='new_monto' required />
+                    <label for="name" class="form__label">Monto</label>
+                </div>
+                <div class="form__group field">
+                    <input type="input" class="form__field" placeholder="price" name="name" id='old_name' required />
+                    <label for="name" class="form__label">Integrante</label>
+                </div>
+                <div class="form__group field">
+                    <input class="form__field" placeholder="price" name="name" id='new_name' required />
+                    <label for="name" class="form__label">Nuevo nombre</label>
+                </div>
+            </div>
         </div>
-
     </div>
     <div id="deben" class="ResultContainer"></div>
 
