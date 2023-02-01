@@ -114,7 +114,7 @@ function calculate () {
             });
             
         });
-        (price.value !== total) ? alert("Falta plata") : showResult(total, balanceSheet, participants, porPersona)
+        (parseInt(price.value) > total) ? alert("Falta plata") : showResult(total, balanceSheet, participants, porPersona)
         return balanceSheet
     }
     
@@ -141,8 +141,9 @@ function clearEverything() {
 
 
 
-function insufficientMoney (total) {
-    
+function insufficientMoney (participants) {
+    const total = participants.reduce((acc, user)=> acc + user.amount, 0)
+    (total == parseInt(price.value)) ? console.log("hola") : console.log("no ola")
 }
 
 
@@ -160,7 +161,7 @@ function showParticipants(participants) {
         <div class="participantsDescription" id="${p.id}">
             <h3>${p.id}</h3>
             <h3>${p.name}</h3>
-            <h3>${p.amount}</h3>
+            <h3>$${p.amount}</h3>
         </div>`
         results.appendChild(nuevoParticipant)
     }
@@ -172,9 +173,9 @@ function showResult(total, balanceSheet, participants, porPersona) {
                             <div id="finalResult"></div>`
  
     let finalnumbers = document.createElement("div")
-    finalnumbers.innerHTML = ` <li style="color: wheat;">Total gastado: ${total}</li>
+    finalnumbers.innerHTML = ` <li style="color: wheat;">Total gastado: $${total}</li>
                         <li style="color: wheat;">Total participantes: ${participants.length}</li>
-                        <li style="color: wheat;">Monto por persona: ${Math.round(porPersona)}</li>`
+                        <li style="color: wheat;">Monto por persona: $${Math.round(porPersona)}</li>`
     resultados.appendChild(finalnumbers)
 
     let finalParticipants = document.getElementById("finalParticipants")
@@ -192,7 +193,7 @@ function showResult(total, balanceSheet, participants, porPersona) {
 
     for (let p of balanceSheet) {
          let nuevoResultado = document.createElement("div")
-         nuevoResultado.innerHTML = `<li>${p.name} debe pagar: ${Math.round(p.debePagar)} a ${p.a}</li>`
+         nuevoResultado.innerHTML = `<li>${p.name} debe pagar: $${Math.round(p.debePagar)} a ${p.a}</li>`
          finalResult.appendChild(nuevoResultado)
      }
 
