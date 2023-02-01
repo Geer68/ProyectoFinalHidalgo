@@ -277,7 +277,7 @@ input:checked + .slider:before {
   justify-items: left;
   margin-top: 15px;
 }
-.ResultContainer h2, .ResultContainer h3 {
+.ResultContainer h2, .ResultContainer h3, .ResultContainer li {
   padding-right: 150px;
   color: #fff;
   margin: 0px;

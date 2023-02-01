@@ -1,40 +1,37 @@
 //Tareas
-//  1. Asociar limpiar a Nueva division                 SOLUCIONADO
-//  1. Eliminar participante con boton interactivo?
-//  1. Generar emision de resultado                     SOLUCIONADO
-//  1. Restriccion de no integrante                     SOLUCIONADO
-//  1. Dark mode
-//  2. Estilizar listado                                SOLUCIONADO 
-//  1. Revisar aplicado de Propina
-//  1. Eliminar participante bt find()
-//  1. Actualizar monto/nombre, nuevo boton/modal?      TRABAJANDO FALTA JS
-//  2. Eliminar variables globales incesarias
-//  1. Actualización infinita de precio con tips        SOLUCIONADO
-//  1. Almacenar datos en setLocal
-//  3. Restaurante y Grupales, sin un precio fijo
-//  4. Generar texto para compartir
-//  1. Incluir operadores ternarios                     TRABAJANDO
-//  4. Realizar grafico
-//  1. Visualizacion de precio a pagar sin precio       SOLUCIONADO
-//  2. Ver de ocultar calcular y obligar a nueva cuenta
+//  1. Asociar limpiar a Nueva division                     SOLUCIONADO
+//  1. Eliminar participante con boton interactivo?         
+//  1. Generar emision de resultado                         SOLUCIONADO
+//  1. Restriccion de no integrante                         SOLUCIONADO
+//  1. Dark mode                                            
+//  2. Estilizar listado                                    SOLUCIONADO 
+//  1. Revisar aplicado de Propina                          
+//  1. Eliminar participante bt find()                      
+//  1. Actualizar monto/nombre, nuevo boton/modal?          SOLUCIONADO
+//  2. Eliminar variables globales incesarias               SOLUCIONADO
+//  1. Actualización infinita de precio con tips            SOLUCIONADO
+//  1. Almacenar datos en setLocal                          
+//  3. Restaurante y Grupales, sin un precio fijo           ENTREGA FINAL (?)
+//  4. Generar texto para compartir                         ENTREGA FINAL (?)
+//  1. Incluir operadores ternarios                         TRABAJANDO
+//  4. Realizar grafico                                     ENTREGA FINAL (?)
+//  1. Visualizacion de precio a pagar sin precio           SOLUCIONADO
+//  1. function insufficientMoney () hacer util             
+//  1. function showResult() reescribir                     SOLUCIONADO
 
 //Comentar Ctrl + K, Ctrl + C
 
 //Variables
 let price = document.getElementById("price")
-// document.getElementById("price").defaultValue = 0
 let results = document.getElementById("participantList")
 document.getElementById("tips").defaultValue = 0
-let deben = document.getElementById("deben")
+let resultados = document.getElementById("resultados")
 let name_monto = document.getElementById("name_monto")
 let new_monto = document.getElementById("new_monto")
 let old_name = document.getElementById("old_name")
 let new_name = document.getElementById("new_name")
 
-//Eliminar
-let deudaResult = []
 let participants = []
-let cobrarResult = []
 
 
 //????????
@@ -60,17 +57,13 @@ function tips() {
 
 class Participante {
     constructor(id, nombre, monto) {
-        this.id = id,
-            this.nombre = nombre,
-            this.monto = monto,
-            this.debe = 0
-    }
-    mostrarInfoEstado() {
-        console.log(`${this.nombre} puso ${this.monto}`)
+            this.id = id,
+            this.name = nombre,
+            this.amount = monto
     }
 }
 
-function agregarParticipante() {
+function newParticipant() {
     let nombreInput = document.getElementById("name")
     let montoInput = document.getElementById("monto")
     if (nombreInput.value == ''){
@@ -78,62 +71,78 @@ function agregarParticipante() {
     } else if (montoInput.value == '') {
         alert(`Ingrese Monto`)
     } else {
-        const participanteNuevo = new Participante(participants.length + 1, nombreInput.value, montoInput.value)
-        console.log(participanteNuevo)
+        const participanteNuevo = new Participante(participants.length + 1, nombreInput.value, parseInt(montoInput.value))
+        // console.log(participanteNuevo)
         participants.push(participanteNuevo)
-        console.log(participants)
+        // console.log(participants)
         nombreInput.value = '', montoInput.value = ''
     }
     showParticipants(participants)
 }
+
+
+
+function calculate () {
+    console.log(price.value)
+    const total = participants.reduce((acc, user)=> acc + user.amount, 0)
+    console.log(total)
+    
+    const calculate = ()=>{  
+        const porPersona = total / participants.length
+        const separateUsers = ()=> {
+            const prestador = participants.filter(user=> user.amount > porPersona)    
+            const deudor = participants.filter(user=> user.amount < porPersona)
+            const prestadores = prestador.map((prestador)=>({...prestador, deposito:prestador.amount - porPersona}))
+            const deudores = deudor.map((deudor)=>({...deudor, balance:porPersona - deudor.amount, debePagar:[]}))
+            return {deudores, prestadores}   
+        }   
+        const {prestadores, deudores} = separateUsers()
+        const balanceSheet = []
+        deudores.forEach(deudor => {
+            const name = deudor.name
+            prestadores.every(prestador => {
+                const a = prestador.name
+                if (prestador.deposito) {
+                    const debePagar = Math.min(prestador.deposito, deudor.balance)
+                    if (debePagar) {
+                        deudor.balance -= debePagar
+                        prestador.deposito -= debePagar
+                        balanceSheet.push({name, debePagar, a})
+                    }
+                }
+                return deudor.balance
+            });
+            
+        });
+        (price.value !== total) ? alert("Falta plata") : showResult(total, balanceSheet, participants, porPersona)
+        return balanceSheet
+    }
+    
+    const resultado = calculate()
+    console.log(resultado)
+
+    
+}
+
+
 
 //Limpiar
 function clearEverything() {
     participants = []
     showParticipants(participants)
     results.innerHTML = `<div class="participantsDescription">
-                            <h3>Num</h3>
+                            <h3>N°</h3>
                             <h3>Nombre</h3>
-                            <h3>Monto</h3>
+                            <h3>Puso</h3>
                         </div>`
-    deben.innerHTML = ""
+    resultados.innerHTML = ""
     //Limpiar tips y precio
 }
 
 
-//Dividir
-function divide() {
-    let dividedPrice = price.value / (participants.length)
-    console.log(dividedPrice)
-    console.log(participants)
-    deber(dividedPrice)
-}
 
-function deber(dividedPrice) {
-    if ((timesEdit = 1)) {
-        cobrarResult = []
-        deudaResult = []
-    }
-    for (const participanteNuevo of participants) {
-        participanteNuevo.debe = dividedPrice - participanteNuevo.monto
-        //NO DEBE NADA
-        if (participanteNuevo.debe < 0) {
-            cobrarResult.push(`${participanteNuevo.nombre}`)
-        } else {
-            deudaResult.push(` ${participanteNuevo.nombre} debe ${participanteNuevo.debe}`)
-        }
-    }
-    console.log(cobrarResult)
-    console.log(deudaResult)
-    showResult(dividedPrice)
-}
-
-function insufficientMoney () {
-    let money = 0
-    for (let p of participants) {
-        money += p.monto
-    }
-    (money != price) ? alert("falta plata") : alert("no falta plata")
+function insufficientMoney (total) {
+    
 }
 
 
@@ -150,95 +159,46 @@ function showParticipants(participants) {
         nuevoParticipant.innerHTML = `
         <div class="participantsDescription" id="${p.id}">
             <h3>${p.id}</h3>
-            <h3>${p.nombre}</h3>
-            <h3>${p.monto}</h3>
+            <h3>${p.name}</h3>
+            <h3>${p.amount}</h3>
         </div>`
         results.appendChild(nuevoParticipant)
     }
 }
 
-function showResult(dividedPrice) {
-    console.log(participants)
-    if (price.value == 0) {
-        alert(`Ingrese Precio`)
-        document.getElementById('price').disabled = false
-        document.getElementById('tips').disabled = false
-    } else if (participants.length == 0) {
-        //Aviso pero no freno
-        alert(`Ingrese al menos 1 participante`)
-        document.getElementById('price').disabled = false
-        document.getElementById('tips').disabled = false
-    } else{
-        deben.innerHTML = ""
-        let finalResult = document.createElement("div")
-        if (participants.length == 1 && price != 0) {
-            finalResult.innerHTML =`<div class="row">
-                                        <h2>El precio es: ${price.value}, a pagar individualmente es: ${dividedPrice}</h2>
-                                    </div>`
-            deben.appendChild(finalResult)
-        } else if (participants.length >1 && price != 0){
-            finalResult.innerHTML = `<div class="row">
-                                    <h2>El precio es: ${price.value}, a pagar entre ${(participants.length)} es: ${dividedPrice} c/u</h2>
-                                    </div>`
-            //<h3> ${deudaResult} a ${cobrarResult} </h3>
-            deben.appendChild(finalResult)
-        }
+function showResult(total, balanceSheet, participants, porPersona) {
+    resultados.innerHTML = `<div id="finalNumbers"></div>
+                            <div id="finalParticipants"></div>
+                            <div id="finalResult"></div>`
+ 
+    let finalnumbers = document.createElement("div")
+    finalnumbers.innerHTML = ` <li style="color: wheat;">Total gastado: ${total}</li>
+                        <li style="color: wheat;">Total participantes: ${participants.length}</li>
+                        <li style="color: wheat;">Monto por persona: ${Math.round(porPersona)}</li>`
+    resultados.appendChild(finalnumbers)
+
+    let finalParticipants = document.getElementById("finalParticipants")
+    finalParticipants.innerHTML = `<h3>Participantes</h3>`
+
+
+    for (let p of participants) {
+        let nuevoParticipant = document.createElement("div")
+        nuevoParticipant.innerHTML = `<li> ${p.name}</li>`
+        finalParticipants.appendChild(nuevoParticipant)
     }
 
-    price.value = ''
+    let finalResult = document.getElementById("finalResult")
+    finalResult.innerHTML = `<h3>Resultados</h3>`
+
+    for (let p of balanceSheet) {
+         let nuevoResultado = document.createElement("div")
+         nuevoResultado.innerHTML = `<li>${p.name} debe pagar: ${Math.round(p.debePagar)} a ${p.a}</li>`
+         finalResult.appendChild(nuevoResultado)
+     }
+
+
+
 }
-
-
-// Inicio
-// function menu() {
-//     let exitMenu = false
-//     do {
-//         exitMenu = preguntarOpcion(exitMenu)
-//     } while (!exitMenu)
-// }
-// function preguntarOpcion(salir) {
-//     let optionStart = parseInt(prompt(`Ingrese la opcion deseada
-//         1. Iniciar nueva división
-//         2. Ver resultado ultima división
-//         3. Modificar divisiones previas
-//         4. Modificar nombre de particpantes previos
-//         5. Ver todas las divisiones (no)
-//         0. Salir`))
-
-//     switch (optionStart) {
-//         case 1:
-//             askPrice()
-//             agregarParticipante(optionStart)
-//             deber()
-//             showPrice()
-//             break
-//         case 2:
-//             showPrice()
-//             break
-//         case 3:
-//             timesEdit++
-//             edit(participants, optionStart)
-//             deber()
-//             showPrice()
-//             break
-//         case 4:
-//             edit(participants, optionStart)
-//             deber()
-//             showPrice()
-//             break
-//         case 5:
-//             console.log(`Todas`)
-//             break
-//         case 0:
-//             console.log(`Adios`)
-//             salir = true
-//             return salir
-//             break
-//         default:
-//             alert(`${optionStart} no es una opción válida`)
-//             break
-//     }
-// }
 
 //Modificar Nombre o Monto
 function edit(array, optionStart) {
@@ -256,15 +216,15 @@ function edit(array, optionStart) {
             updParticipantM = 0
             updParticipantN = ''
             let searchedName = name_monto.value
-            let foundedID = array.findIndex((participante) => participante.nombre.toLowerCase() == searchedName.toLowerCase())
-            updParticipantM = array[foundedID].monto = new_monto.value
+            let foundedID = array.findIndex((participante) => participante.name.toLowerCase() == searchedName.toLowerCase())
+            updParticipantM = array[foundedID].amount = parseInt(new_monto.value)
             timesEdit = 0
         } else {
             updParticipantM = 0
             updParticipantN = ''
             let searchedName = old_name.value
-            let foundedID = array.findIndex((participante) => participante.nombre.toLowerCase() == searchedName.toLowerCase())
-            updParticipantN = array[foundedID].nombre = new_name.value
+            let foundedID = array.findIndex((participante) => participante.name.toLowerCase() == searchedName.toLowerCase())
+            updParticipantN = array[foundedID].name = new_name.value
             timesEdit = 0
         }
     }
@@ -274,13 +234,12 @@ function edit(array, optionStart) {
 //Iniciamos
 let buttonAdd = document.getElementById("add")
 buttonAdd.onclick = () => {
-    agregarParticipante()
+    newParticipant()
 }
 
 let buttonStart = document.getElementById("start")
 buttonStart.onclick = () => {
-    tips(),
-    divide()
+    calculate()
 }
 
 let buttonNew = document.getElementById("new")
@@ -299,6 +258,7 @@ buttonChangeName.onclick = () => {
     edit(participants,4),
     showParticipants(participants)
 }
+
 
 
 
