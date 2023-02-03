@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 
 <head>
     <meta charset="UTF-8">
@@ -10,10 +10,12 @@
     <link rel="stylesheet" href="style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible&display=swap" rel="stylesheet">
 </head>
 
 <body>
-    <div class="startContainer">
+    <!-- <div class="startContainer"> SIN USO 
         <div class="form__group field">
             <input type="number" class="form__field" placeholder="price" name="name" id='price' required />
             <label for="name" class="form__label">Precio</label>
@@ -23,11 +25,11 @@
             <label for="name" class="form__label">Propinas</label>
         </div>
         <h2 style="color: rgb(81, 81, 81);">%</h2>
-        <!-- <label class="switch">
+            <label class="switch">
             <input type="checkbox">
             <span class="slider round"></span>
-        </label> -->
-    </div>
+        </label>
+    </div> -->
 
 
 
@@ -42,38 +44,15 @@
         </div>
     </div>
 
+
     <div class="interface">
-        <button class="button-82-pushable" role="button" id="add">
-            <span class="button-82-shadow"></span>
-            <span class="button-82-edge"></span>
-            <span class="button-82-front text">
-                Agregar participante
-            </span>
-        </button>
-        <button class="button-82-pushable" role="button" id="start">
-            <span class="button-82-shadow"></span>
-            <span class="button-82-edge"></span>
-            <span class="button-82-front text">
-                Calcular
-            </span>
-        </button>
-        <button id="myBtn" class="button-82-pushable"><span class="button-82-shadow"></span>
-            <span class="button-82-edge"></span>
-            <span class="button-82-front text">
-                Modificar
-            </span>
-        </button>
-        <button class="button-82-pushable" role="button" id="new">
-            <span class="button-82-shadow"></span>
-            <span class="button-82-edge"></span>
-            <span class="button-82-front text">
-                Nueva división
-            </span>
-        </button>
+        <button class="button1" role="button" id="add">Agregar participante</button>
+        <button class="button2" role="button" id="start">Calcular</button>
+        <button class="button3" role="button" id="myBtn">Modificar</button>
+        <button class="button4" role="button" id="new">Nuevo cálculo</button>
     </div>
 
-    <!-- Trigger/Open The Modal -->
-   
+
 
     <!-- The Modal -->
     <div id="myModal" class="modal">
@@ -81,48 +60,50 @@
         <div class="modal-content">
             <span class="close">&times;</span>
             <div class="textContainer">
-                <button class="button-82-pushable" role="button" id="changeMonto">
-                    <span class="button-82-shadow"></span>
-                    <span class="button-82-edge"></span>
-                    <span class="button-82-front text">
-                        Modificar monto
-                    </span>
-                </button>
-                <button class="button-82-pushable" role="button" id="changeName">
-                    <span class="button-82-shadow"></span>
-                    <span class="button-82-edge"></span>
-                    <span class="button-82-front text">
-                        Cambiar nombre
-                    </span>
-                </button>
-            </div>
-            <div class="chargeParticipants">
+                <button class="button3" role="button" id="changeMonto">Modificar monto</button>
+
                 <div class="form__group field">
                     <input type="input" class="form__field" placeholder="price" name="name" id='name_monto' required />
                     <label for="name" class="form__label">Integrante</label>
                 </div>
+
                 <div class="form__group field">
                     <input type="number" class="form__field" placeholder="price" name="name" id='new_monto' required />
                     <label for="name" class="form__label">Monto</label>
                 </div>
+
+
+
+            </div>
+            <div class="textContainer">
+                <button class="button3" role="button" id="changeName">Modificar nombre</button>
+
                 <div class="form__group field">
                     <input type="input" class="form__field" placeholder="price" name="name" id='old_name' required />
                     <label for="name" class="form__label">Integrante</label>
                 </div>
+
                 <div class="form__group field">
                     <input class="form__field" placeholder="price" name="name" id='new_name' required />
                     <label for="name" class="form__label">Nuevo nombre</label>
                 </div>
             </div>
+
+            <div class="textContainer">
+                <button class="button3" role="button" id="deleteName">Eliminar</button>
+
+                <div class="form__group field">
+                    <input type="input" class="form__field" placeholder="price" name="name" id='deletedName' required />
+                    <label for="name" class="form__label">Integrante</label>
+                </div>
+
+            </div>
         </div>
     </div>
 
     <div id="resultados" class="ResultContainer">
-        <div id="finalNumbers"></div>
-        <div id="finalParticipants"></div>
-        <div id="finalResult"></div>
     </div>
-    
+
 
     <div id="participantList" class="rowContainer">
         <div class="participantsDescription">
