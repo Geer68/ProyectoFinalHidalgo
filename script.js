@@ -23,6 +23,7 @@
 //  1. Eliminar alert de edit                               ENTREGA FINAL (?)
 //  1. Eliminar calculate() cuando no debería               SOLUCIONADO
 //  4. Implementar correctamente para comidas con propinas  ENTREGA FINAL (?)
+//  1. Al eliminar mostraba informacion NaN                 SOLUCIONADO
 
 
 //Comentar Ctrl + K, Ctrl + C
@@ -161,20 +162,29 @@ function insufficientMoney(participants) {
 
 //Mostrar
 function showParticipants(participants) {
-    results.innerHTML = `<div class="participantsDescription">
-                            <h3>N°</h3>
-                            <h3>Nombre</h3>
-                            <h3>Puso</h3>
-                        </div>`
-    for (let p of participants) {
-        let nuevoParticipant = document.createElement("div")
-        nuevoParticipant.innerHTML = `
-        <div class="participantsDescription" id="${p.id}">
-            <h3>${p.id}</h3>
-            <h3>${p.name}</h3>
-            <h3>$${p.amount}</h3>
-        </div>`
+    
+    if (participants == '') {
+        results.innerHTML = ``
+        console.log("hola")
+        let nuevoParticipant = document.createElement("h3")
+        nuevoParticipant.innerText = `No hay participantes ingresados`
         results.appendChild(nuevoParticipant)
+    } else {
+        results.innerHTML = `<div class="participantsDescription">
+                                <h3>N°</h3>
+                                <h3>Nombre</h3>
+                                <h3>Puso</h3>
+                            </div>`
+        for (let p of participants) {
+            let nuevoParticipant = document.createElement("div")
+            nuevoParticipant.innerHTML = `
+            <div class="participantsDescription" id="${p.id}">
+                <h3>${p.id}</h3>
+                <h3>${p.name}</h3>
+                <h3>$${p.amount}</h3>
+            </div>`
+            results.appendChild(nuevoParticipant)
+        }
     }
 }
 
