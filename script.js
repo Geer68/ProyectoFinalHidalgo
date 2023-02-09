@@ -314,7 +314,11 @@ buttonNew.onclick = () => {
 let buttonChangeMonto = document.getElementById("changeMonto")
 buttonChangeMonto.onclick = () => {
     if (participants == '') {
-        alert(`No hay ediciones que realizar aun`) //Sweet alert no hay ediciones que realizar todavia.....
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: '¡No hay participantes ingresados!',
+          })
     } else {
         edit(participants, 3),
         calculate(),
