@@ -19,8 +19,8 @@
 //  1. Separar calculate()                                  SOLUCIONADO
 //  1. Independizar funciones                               SOLUCIONADO
 //  1. Eliminar alert de edit                               
-//  2. Implementar correctamente para comidas con propinas                             
-//  1. Eliminar participante con boton interactivo?         
+//  2. Implementar correctamente para comidas con propinas  
+//  1. Eliminar participante con boton interactivo?         SOLUCIONADO
 //  1. Dark mode                                            
 //  1. Revisar aplicado de Propina                          
 //  3. Restaurante y Grupales, sin un precio fijo           
@@ -30,6 +30,18 @@
 //  1. function insufficientMoney () hacer util             
 //  4. Hacer responsive                                     
 //  1. Cambiar a switch edit()                              
+//  1. Monto permite +-                                     
+
+//NODE AVERIGUAR PARA EDICION
+
+//Entrega final
+//Llamada fetch(), averiguar para edicion con node?
+//Storage
+//Dom
+//Librerias
+//Comentarios indicativos, no inecesarios
+//Entregar con comentario en un readme, descripccion del proyecto, que hace, funciones async, etc. AGREGAR README RE UTIL
+// 2 o 3 operadoresa avanzados
 
 //Comentar Ctrl + K, Ctrl + C
 
@@ -42,7 +54,6 @@ let name_monto = document.getElementById("name_monto")
 let new_monto = document.getElementById("new_monto")
 let old_name = document.getElementById("old_name")
 let new_name = document.getElementById("new_name")
-let deletedName = document.getElementById("deletedName")
 let nombreInput = document.getElementById("name")
 let montoInput = document.getElementById("monto")
 let participants = []
@@ -84,10 +95,11 @@ function newParticipant() {
 function calculate() {
         const total = participants.reduce((acc, user) => acc + user.amount, 0)
         const porPersona = total / participants.length    
-        return { total, porPersona }
+        return { total, porPersona }     
     }
 
-function separateUsers(porPersona){
+function separateUsers(){
+    const { total, porPersona } = calculate()
     const prestador = participants.filter(user => user.amount > porPersona)
     const deudor = participants.filter(user => user.amount < porPersona)
     const prestadores = prestador.map((prestador) => ({ ...prestador, deposito: prestador.amount - porPersona }))
@@ -154,6 +166,18 @@ function insufficientMoney(participants) {
 
 
 
+function deleteParticipant (id){
+    let toDelete = participants.splice(id,1)
+    console.log(participants)
+    console.log(toDelete)
+    calculate()
+        separateUsers()
+        prestadorDeudor()
+        showParticipants(participants)
+            save()
+
+}
+
 //Mostrar
 function showParticipants(participants) {
         if (participants == '') {
@@ -174,6 +198,7 @@ function showParticipants(participants) {
                     <h3>${p.id}</h3>
                     <h3>${p.name}</h3>
                     <h3>$${p.amount}</h3>
+                    <button id="p.n${p.id}" class="button-1" role="button"><img src="bin.png" alt="delete" onclick="deleteParticipant(${p.id})"></button>
                 </div>`
                 results.appendChild(nuevoParticipant)
             }
@@ -273,7 +298,7 @@ buttonStart.onclick = () => {
         //Sweet alert
     } else {
         calculate(),
-        separateUsers(participants),
+        separateUsers(),
         prestadorDeudor(),
         showParticipants(participants),
             save()
@@ -293,6 +318,8 @@ buttonChangeMonto.onclick = () => {
     } else {
         edit(participants, 3),
         calculate(),
+        separateUsers(),
+        prestadorDeudor(),
         showParticipants(participants),
             save()
     }
@@ -305,22 +332,13 @@ buttonChangeName.onclick = () => {
     } else {
     edit(participants, 4),
     calculate(),
-    showParticipants(participants),
-        save()
+        separateUsers(),
+        prestadorDeudor(),
+        showParticipants(participants),
+            save()
     }
 }
 
-let buttonDeleteName = document.getElementById("deleteName")
-buttonDeleteName.onclick = () => {
-    if (participants == '') {
-        alert(`No podees eliminar vacio`) //Sweet alert no hay ediciones que realizar todavia.....
-    } else {
-    edit(participants, 5),
-    calculate(),
-    showParticipants(participants),
-        save()
-    }
-}
 
 
 
