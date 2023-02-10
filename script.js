@@ -36,6 +36,7 @@
 //  1. Guardar preferencia de modo
 //  1. Mejorar edits
 //  1. No guarda cuenta anterior ni configuraciones
+//  1. No muestra precio en restaurante total
 
 //NODE AVERIGUAR PARA EDICION
 
@@ -70,10 +71,13 @@ let nombreInput = document.getElementById("name")
 let montoInput = document.getElementById("monto")
 let participants = []
 
-localStorage.setItem("participantsS", [])
 localStorage.setItem("darkmode", false)
-localStorage.setItem("mode", "restaurant")
-
+localStorage.setItem("mode", "juntada")
+localStorage.setItem("firsTime", true)
+let times = localStorage.getItem("firstTime")
+if (times){
+    localStorage.setItem("participantsS", [])
+}
 //Class
 class Participante {
     constructor(id, nombre, monto) {
@@ -102,9 +106,18 @@ function getTips() {
 
 
 function calculate() {
-    const total = participants.reduce((acc, user) => acc + user.amount, 0)
-    const porPersona = total / participants.length
-    return { total, porPersona }
+    let mode = localStorage.getItem("mode")
+    if (mode == "restaurant") {
+        const { price, tipPercentage, tipsAmount, priceWTips } = getTips()
+        const total = priceWTips
+        const porPersona = priceWTips / participants.length
+        console.log(total)
+        return { total, porPersona }
+    } else {
+        const total = participants.reduce((acc, user) => acc + user.amount, 0)
+        const porPersona = total / participants.length
+        return { total, porPersona }
+    }
 }
 
 function separateUsers() {
@@ -118,6 +131,7 @@ function separateUsers() {
 
 function prestadorDeudor() {
     const { total, porPersona } = calculate()
+    console.log(total)
     const { prestadores, deudores } = separateUsers()
     const balanceSheet = []
     deudores.forEach(deudor => {
@@ -175,12 +189,6 @@ function clearEverything() {
     //Limpiar tips y precio
 }
 
-
-
-// function insufficientMoney(participants) {
-//     const total = participants.reduce((acc, user) => acc + user.amount, 0)
-//         (total == parseInt(price.value)) ? console.log("hola") : console.log("no ola")
-// }
 
 
 //Promise?
@@ -276,7 +284,7 @@ function showResult(total, balanceSheet, participants, porPersona) {
                                 <div id="finalResult"></div>`
         let restaurantNumbers = document.getElementById("restaurantNumbers")
         let split = document.createElement("div")
-        split.innerHTML = ` <h3>Precio sin propina: ${price.value} </h3>
+        split.innerHTML = ` <h3>Precio sin propina: ${total} </h3>
                             <h3>Porcentaje de propina: ${tipPercentage.value}%</h3>
                             <h3>Precio con propina de ${tipPercentage.value}% : $${priceWTips} </h3>
                             <h3>Propinas: $${tipsAmount}</h3>`
@@ -284,7 +292,7 @@ function showResult(total, balanceSheet, participants, porPersona) {
 
         let finalNumbers = document.getElementById("finalNumbers")
         let numbers = document.createElement("div")
-        finalNumbers.innerHTML = ` <li style="color: #252525">Total gastado: $${total}</li>
+        finalNumbers.innerHTML = ` <li style="color: #252525">Total gastado: $${total.value}</li>
                                    <li style="color: #252525">Total participantes: ${participants.length}</li>
                                    <li style="color: #252525">Monto por persona: $${Math.round(porPersona)}</li>`
         finalNumbers.appendChild(numbers)
@@ -486,7 +494,7 @@ buttonChangeName.onclick = () => {
 }
 
 
-if (localStorage.getItem("participantsS") != '') {
+if (localStorage.getItem("participantsS") !== []) {
     participants = JSON.parse(localStorage.getItem("participantsS"))
         calculate(),
         separateUsers(participants),
