@@ -37,9 +37,9 @@
 //  1. No guarda cuenta anterior ni configuraciones         SOLUCIONADO
 //  1. No muestra precio en restaurante total               SOLUCIONADO
 //  1. Implementar edit con boton parecido borrar
-//  1. Total gastado convertir en juntado y avisar si no coincide
-//  1. Simplificar showresults
-//  1. Revisar inicio en restaurante y error
+//  1. Sumado y precio no coinciden, alert                  SOLUCIONADO
+//  1. Simplificar showresults                              SOLUCIONADO
+//  1. Revisar inicio en restaurante y error                SOLUCIONADO
 
 //NODE AVERIGUAR PARA EDICION
 
@@ -270,19 +270,38 @@ function showResult(total, balanceSheet, participants, porPersona) {
         } else {
             const { total, porPersona, sumado } = calculate()
             const { price, tipPercentage, tipsAmount, priceWTips } = getTips()
+            
+            
             let restaurantNumbers = document.getElementById("restaurantNumbers")
             let split = document.createElement("div")
             split.innerHTML = ` <h3>Precio sin propina: $${price.value} </h3>
-                                <h3>Porcentaje de propina: ${tipPercentage.value}%</h3>
-                                <h3>Propinas: $${tipsAmount}</h3>
-                                <h3>Precio + propinas: $${priceWTips} </h3>`
+            <h3>Porcentaje de propina: ${tipPercentage.value}%</h3>
+            <h3>Propinas: $${tipsAmount}</h3>
+            <h3>Precio + propinas: $${priceWTips} </h3>`
             restaurantNumbers.appendChild(split)
-
+            
             let finalNumbers = document.getElementById("finalNumbers")
             let numbers = document.createElement("div")
-            finalNumbers.innerHTML = ` <li>Total sumado: $${sumado}</li>
-                                       <li>Total participantes: ${participants.length}</li>
-                                       <li>Monto por persona: $${Math.round(porPersona)}</li>`
+            finalNumbers.innerHTML = ` <li id="sumadoStyle">Total sumado: $${sumado}</li>
+                <li>Total participantes: ${participants.length}</li>
+                <li>Monto por persona: $${Math.round(porPersona)}</li>`
+            if (priceWTips > sumado) {
+                let sumadoStyle  = document.getElementById("sumadoStyle")
+                sumadoStyle.classList.add("errorDinero")
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Cuidado',
+                    text: `Falta plata, revise`,
+                })
+            } else{
+                let sumadoStyle  = document.getElementById("sumadoStyle")
+                sumadoStyle.classList.add("noErrorDinero")
+                Swal.fire({
+                    icon: 'info',
+                    title: 'Cuidado',
+                    text: `Plata de mas, modifique`,
+                })
+            }
             finalNumbers.appendChild(numbers)
 
             let finalParticipants = document.getElementById("finalParticipants")

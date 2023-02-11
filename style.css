@@ -214,12 +214,18 @@ input:checked + .slider:before {
   justify-items: left;
   margin-top: 15px;
 }
-.ResultContainer h2,
-.ResultContainer h3,
-.ResultContainer li {
+.ResultContainer h2, .ResultContainer h3 {
   padding-right: 150px;
   color: #252525;
   margin: 0px;
+}
+.ResultContainer li {
+  padding-right: 150px;
+  margin: 0px;
+}
+
+.errorDinero text {
+  color: red;
 }
 
 .modal {

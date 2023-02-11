@@ -234,13 +234,21 @@ input:checked+.slider:before {
   justify-items: left;
   margin-top: 15px;
 
-  h2,
-  h3,
-  li {
-
+  h2, h3 {
     padding-right: 150px;
     color: #252525;
     margin: 0px;
+  }
+  li {
+    padding-right: 150px;
+    margin: 0px;
+  }
+
+}
+
+.errorDinero {
+  text {
+    color: red;
   }
 }
 
