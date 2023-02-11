@@ -1,3 +1,101 @@
+nav {
+  background-color: #0b617088;
+  width: 100%;
+  display: flex;
+  justify-items: center;
+  justify-content: center;
+  h1 {
+    color: white;
+    font-weight: bold;
+  }
+}
+
+.configs {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 15px;
+  width: 100%;
+  .checkbox-wrapper-22, .checkbox-wrapper-30 {
+    margin: 0 10px 0 10px;
+  }
+}
+
+.restaurantJuntada {
+  display: flex;
+}
+ 
+.inputContainer {
+  background-color: rgba(221, 221, 221, 0.536);
+  border-radius: 20px;
+  padding: 20px;
+  min-height: 205px;
+  display: flex;
+  flex-direction: column;
+  justify-content: end;
+}
+.restaurantContainer {
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 20px;
+  align-items: end;
+  h2 {
+    color: #252525;
+  }
+  div {
+    margin-right: 10px;
+  }
+}
+
+.resultContainer {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  justify-items: left;
+  margin-top: 15px;
+
+  h2, h3 {
+    color: #252525;
+    margin: 0px;
+  }
+
+}
+
+#restaurantNumbers, #finalNumbers, #finalParticipants, #finalResult {
+  width: 100%;
+  padding: 5px 7px;
+  background-color: #aaaaaa7d;
+  margin-bottom: 5px;
+  border-radius: 5px;
+}
+#finalParticipants {
+  h3 {
+    margin-top: 5px;
+    text-align: center;
+    font-weight: bolder;
+  }
+}
+
+.rowContainer {
+  width: 100%;
+  padding: 15px;
+}
+.participantsDescription {
+  min-width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+
+  h2 {
+    text-align: center;
+    margin-right: 150px;
+    color: #252525;
+    margin: 0px;
+  }
+}
+
 $primary: #393e3e;
 $secondary: #393e3e;
 $black: #252525;
@@ -143,15 +241,6 @@ input:checked+.slider:before {
   border-radius: 50%;
 }
 
-.white {
-  li {
-    color: #252525;
-  }
-
-  h3 {
-    color: #252525;
-  }
-}
 
 #finalParticipants,
 #finalResult {
@@ -170,18 +259,7 @@ input:checked+.slider:before {
 }
 
 
-.restaurantContainer {
-  display: flex;
-  flex-direction: row;
-  margin-bottom: 20px;
-  align-items: end;
-  h2 {
-    color: #252525;
-  }
-  div {
-    margin-right: 10px;
-  }
-}
+
 
 .chargeParticipants {
   display: flex;
@@ -193,58 +271,19 @@ input:checked+.slider:before {
 }
 
 .interface {
-  margin-top: 50px;
-  display: flex;
-
-  button {
-    margin-right: 20px;
-  }
-}
-
-.rowContainer {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-items: left;
-  margin-top: 15px;
-}
-
-.participantsDescription {
   width: 100%;
+  margin-top: 10px;
   display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-items: center;
-  margin: 15px 0 30px 0;
-
-  h3 {
-    text-align: center;
-    min-width: 150px;
-    max-width: 160px;
-    margin-right: 150px;
-    color: #252525;
-    margin: 0px;
+  justify-content: center;
+  button {
+    margin: 0 10px;
   }
 }
 
-.ResultContainer {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-items: left;
-  margin-top: 15px;
 
-  h2, h3 {
-    padding-right: 150px;
-    color: #252525;
-    margin: 0px;
-  }
-  li {
-    padding-right: 150px;
-    margin: 0px;
-  }
 
-}
+
+
 
 .errorDinero {
   text {
@@ -280,6 +319,9 @@ input:checked+.slider:before {
   padding: 20px;
   border: 1px solid #888;
   width: 80%;
+  button {
+    margin-top: 15px;
+  }
 }
 
 
@@ -301,13 +343,14 @@ input:checked+.slider:before {
 }
 
 .textContainer {
-  margin-left: 15px;
+  justify-content: space-between;
   display: flex;
-  justify-content: left;
+  justify-content: center;
+
 
   .form__group {
     max-width: 300px;
-    margin: 0 15px 0 15px;
+    margin: 0 10px;
   }
 }
 
@@ -319,125 +362,41 @@ input:checked+.slider:before {
 $color_1: #f0f0f0;
 
 @mixin button {
-  all: unset;
-  max-width: 120px;
-  height: 30px;
-  font-size: 16px;
-  background: transparent;
-  border: none;
-  position: relative;
-  color: $color_1;
+  background-color: rgba(51, 51, 51, 0.05);
+  border-radius: 8px;
+  border-width: 0;
+  color: #ffffff;
   cursor: pointer;
-  z-index: 1;
-  padding: 10px 20px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  display: inline-block;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 20px;
+  list-style: none;
+  margin: 0;
+  padding: 10px 12px;
+  text-align: center;
+  transition: all 200ms;
+  vertical-align: baseline;
   white-space: nowrap;
   user-select: none;
   -webkit-user-select: none;
   touch-action: manipulation;
-
-  &::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    right: 0;
-    z-index: -99999;
-    transition: all .4s;
-    transform: translate(10px, 10px);
-    width: 35px;
-    height: 35px;
-    background: #ffffff15;
-    backdrop-filter: blur(5px);
-    -webkit-backdrop-filter: blur(5px);
-    border-radius: 50px;
-  }
-
-  &::before {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    right: 0;
-    z-index: -99999;
-    transition: all .4s;
-    transform: translate(0%, 0%);
-    width: 100%;
-    height: 100%;
-    background: #28282d;
-    border-radius: 10px;
-  }
-
-  &:hover {
-    &::before {
-      transform: translate(5%, 20%);
-      width: 110%;
-      height: 110%;
-    }
-
-    &::after {
-      border-radius: 10px;
-      transform: translate(0, 0);
-      width: 100%;
-      height: 100%;
-    }
-  }
-
-  &:active {
-    &::after {
-      transition: 0s;
-      transform: translate(0, 5%);
-    }
-  }
 }
 
 .button1 {
   @include button();
-
-  &::after {
-    background: #ffffff15;
-  }
-
-  &::before {
-    background: #68921fa6;
-  }
+  background-color: #7e7e7e;
 }
-
 .button2 {
   @include button();
-
-  &::after {
-    background: #ffffff15;
-  }
-
-  &::before {
-    background: #928311;
-  }
+  background-color: #159494;
 }
 
 .button3 {
   @include button();
-
-  &::after {
-    background: #ffffff15;
-  }
-
-  &::before {
-    background: #851a1a;
-  }
+  background-color: #C69E38;
 }
 
-.button4 {
-  @include button();
-
-  &::after {
-    background: #ffffff15;
-  }
-
-  &::before {
-    background: #1a909f;
-  }
-}
 
 
 
@@ -542,13 +501,7 @@ $color_1: #f0f0f0;
 
 
 
-.configs {
-  display: flex;
-  margin-top: 50px;
-  .checkbox-wrapper-22, .checkbox-wrapper-30 {
-    margin: 0 40px;
-  }
-}
+
 
 
 

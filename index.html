@@ -15,7 +15,29 @@
 </head>
 
 <body>
+    <nav>
+        <h1>Cuentas claras</h1>
+    </nav>
+
     <div id="configs" class="configs">
+        <div class="restaurantJuntada">
+            <div class="checkbox-wrapper-30">
+                <span class="checkbox">
+                    <input type="checkbox" id="checkbox" />
+                    <svg>
+                        <use xlink:href="#checkbox-30" class="checkbox"></use>
+                    </svg>
+                </span>
+                <svg xmlns="http://www.w3.org/2000/svg" style="display:none">
+                    <symbol id="checkbox-30" viewBox="0 0 22 22">
+                        <path fill="none" stroke="currentColor"
+                            d="M5.5,11.3L9,14.8L20.2,3.3l0,0c-0.5-1-1.5-1.8-2.7-1.8h-13c-1.7,0-3,1.3-3,3v13c0,1.7,1.3,3,3,3h13 c1.7,0,3-1.3,3-3v-13c0-0.4-0.1-0.8-0.3-1.2" />
+                    </symbol>
+                </svg>
+            </div>
+            <h2 id="textConfig">Juntada</h2>
+        </div>
+
         <div class="checkbox-wrapper-22">
             <label class="switch" for="checkbox">
                 <input type="checkbox" id="toggle" />
@@ -23,85 +45,63 @@
             </label>
         </div>
 
-        <div class="checkbox-wrapper-30">
-            <span class="checkbox">
-                <input type="checkbox" id="checkbox" />
-                <svg>
-                    <use xlink:href="#checkbox-30" class="checkbox"></use>
-                </svg>
-            </span>
-            <svg xmlns="http://www.w3.org/2000/svg" style="display:none">
-                <symbol id="checkbox-30" viewBox="0 0 22 22">
-                    <path fill="none" stroke="currentColor"
-                        d="M5.5,11.3L9,14.8L20.2,3.3l0,0c-0.5-1-1.5-1.8-2.7-1.8h-13c-1.7,0-3,1.3-3,3v13c0,1.7,1.3,3,3,3h13 c1.7,0,3-1.3,3-3v-13c0-0.4-0.1-0.8-0.3-1.2" />
-                </symbol>
-            </svg>
-        </div>
-        <h2 id="textConfig">Juntada</h2>
-    </div>
-    <div class="restaurantContainer" id="restaurantContainer"></div>
-
-
-
-    <div class="chargeParticipants">
-        <div class="form__group field">
-            <input type="input" class="form__field" placeholder="price" name="name" id='name' required />
-            <label for="name" class="form__label">Integrante</label>
-        </div>
-        <div class="form__group field">
-            <input type="number" class="form__field" placeholder="price" name="name" id='monto' required />
-            <label for="name" class="form__label">Monto</label>
-        </div>
     </div>
 
+    <div class="inputContainer">
+        <div class="restaurantContainer" id="restaurantContainer"></div>
+
+        <div class="chargeParticipants">
+            <div class="form__group field">
+                <input type="input" class="form__field" placeholder="price" name="name" id='name' required />
+                <label for="name" class="form__label">Integrante</label>
+            </div>
+            <div class="form__group field">
+                <input type="number" class="form__field" placeholder="price" name="name" id='monto' required />
+                <label for="name" class="form__label">Monto</label>
+            </div>
+        </div>
+    </div>  
 
     <div class="interface">
-        <button class="button1" role="button" id="add">Agregar participante</button>
+        <button class="button1" role="button" id="add">Agregar</button>
         <button class="button2" role="button" id="start">Calcular</button>
         <button class="button3" role="button" id="myBtn">Modificar</button>
-        <button class="button4" role="button" id="new">Nuevo cálculo</button>
+        <button class="button2" role="button" id="new">Nuevo</button>
     </div>
 
 
-
-    <!-- The Modal -->
     <div id="myModal" class="modal">
-        <!-- Modal content -->
         <div class="modal-content">
             <span class="close">&times;</span>
+            <button class="button3" role="button" id="changeMonto">Modificar monto</button>
             <div class="textContainer">
-                <button class="button3" role="button" id="changeMonto">Modificar monto</button>
-
                 <div class="form__group field">
                     <input type="input" class="form__field" placeholder="price" name="name" id='name_monto' required />
-                    <label for="name" class="form__label">Integrante</label>
+                    <label for="name" class="form__label">Nombre</label>
                 </div>
 
                 <div class="form__group field">
                     <input type="number" class="form__field" placeholder="price" name="name" id='new_monto' required />
-                    <label for="name" class="form__label">Monto</label>
+                    <label for="name" class="form__label">Puso</label>
                 </div>
-
-
-
             </div>
-            <div class="textContainer">
-                <button class="button3" role="button" id="changeName">Modificar nombre</button>
 
+            <button class="button3" role="button" id="changeName">Modificar nombre</button>
+            <div class="textContainer">
                 <div class="form__group field">
                     <input type="input" class="form__field" placeholder="price" name="name" id='old_name' required />
-                    <label for="name" class="form__label">Integrante</label>
+                    <label for="name" class="form__label">Nombre</label>
                 </div>
-
                 <div class="form__group field">
                     <input class="form__field" placeholder="price" name="name" id='new_name' required />
-                    <label for="name" class="form__label">Nuevo nombre</label>
+                    <label for="name" class="form__label">N. Nombre</label>
                 </div>
             </div>
         </div>
     </div>
 
-    <div id="resultados" class="ResultContainer"></div>
+    <div id="resultados" class="resultContainer"></div>
+
     <div id="participantList" class="rowContainer"></div>
 
     <div id="restaurantNumbers">

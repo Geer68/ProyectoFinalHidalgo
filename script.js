@@ -239,9 +239,10 @@ function showParticipants(participants) {
         results.appendChild(nuevoParticipant)
     } else {
         results.innerHTML = `<div class="participantsDescription">
-                                    <h3>N°</h3>
-                                    <h3>Nombre</h3>
-                                    <h3>Puso</h3>
+                                    <h2>N°</h2>
+                                    <h2>Nombre</h2>
+                                    <h2>Puso</h2>
+                                    <h2>.</h2>
                                 </div>`
         for (let p of participants) {
             let nuevoParticipant = document.createElement("div")
@@ -273,12 +274,10 @@ function showResult(total, balanceSheet, participants, porPersona) {
             
             
             let restaurantNumbers = document.getElementById("restaurantNumbers")
-            let split = document.createElement("div")
-            split.innerHTML = ` <h3>Precio sin propina: $${price.value} </h3>
+            restaurantNumbers.innerHTML =` <h3>Precio sin propina: $${price.value} </h3>
             <h3>Porcentaje de propina: ${tipPercentage.value}%</h3>
             <h3>Propinas: $${tipsAmount}</h3>
             <h3>Precio + propinas: $${priceWTips} </h3>`
-            restaurantNumbers.appendChild(split)
             
             let finalNumbers = document.getElementById("finalNumbers")
             let numbers = document.createElement("div")
