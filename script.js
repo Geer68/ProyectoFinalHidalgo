@@ -19,24 +19,26 @@
 //  1. Separar calculate()                                  SOLUCIONADO
 //  1. Independizar funciones                               SOLUCIONADO
 //  1. Eliminar alert de edit                               SOLUCIONADO
-//  2. Implementar correctamente para comidas con propinas  TRABAJANDO
+//  2. Implementar correctamente para comidas con propinas  SOLUCIONADO
 //  1. Eliminar participante con boton interactivo?         SOLUCIONADO
 //  1. Dark mode                                            
 //  1. Revisar aplicado de Propina                          SOLUCIONADO
-//  3. Restaurante y Grupales, sin un precio fijo           TRABAJANDO
+//  3. Restaurante y Grupales, sin un precio fijo           SOLUCIONADO
 //  4. Generar texto para compartir                         
 //  1. Incluir operadores ternarios                         
-//  4. Realizar grafico                                     
-//  1. function insufficientMoney () hacer util              
+//  4. Realizar grafico                                              
 //  4. Hacer responsive                                     
 //  1. Cambiar a switch edit()                              
 //  1. Monto permite +-                                     
-//  1. Error al eliminar de ultimo al primero
+//  1. Error al eliminar de ultimo al primero               SOLUCIONADO
 //  1. Primera carga no elimina restaurante                 SOLUCIONADO
-//  1. Guardar preferencia de modo
+//  1. Guardar preferencia de modo                          SOLUCIONADO
 //  1. Mejorar edits
-//  1. No guarda cuenta anterior ni configuraciones
+//  1. No guarda cuenta anterior ni configuraciones         SOLUCIONADO
 //  1. No muestra precio en restaurante total
+//  1. Implementar edit con boton parecido borrar
+//  1. Total gastado convertir en juntado y avisar si no coincide
+//  1. Simplificar showresults
 
 //NODE AVERIGUAR PARA EDICION
 
@@ -72,12 +74,8 @@ let montoInput = document.getElementById("monto")
 let participants = []
 
 localStorage.setItem("darkmode", false)
-localStorage.setItem("mode", "juntada")
 localStorage.setItem("firsTime", true)
-let times = localStorage.getItem("firstTime")
-if (times){
-    localStorage.setItem("participantsS", [])
-}
+
 //Class
 class Participante {
     constructor(id, nombre, monto) {
@@ -98,8 +96,8 @@ function newParticipant() {
 function getTips() {
     let price = document.getElementById("price")
     let tipPercentage = document.getElementById("tips")
-    let tipsAmount = parseInt(price.value)*(parseInt(tipPercentage.value))/100
-    let priceWTips = parseInt(price.value) + tipsAmount 
+    let tipsAmount = parseInt(price.value) * (parseInt(tipPercentage.value)) / 100
+    let priceWTips = parseInt(price.value) + tipsAmount
     return { price, tipPercentage, tipsAmount, priceWTips }
 }
 
@@ -160,8 +158,15 @@ function prestadorDeudor() {
 //Storage
 function save() {
     localStorage.setItem("participantsS", JSON.stringify(participants))
+    if (localStorage.getItem("mode") == "restaurant"){
+        let price = document.getElementById("price")
+        let tipPercentage = document.getElementById("tips")
+        localStorage.setItem("price", price.value)
+        localStorage.setItem("tipPercentage", tipPercentage.value)
+    }
 }
 function clean() {
+    //Restaurant?
     localStorage.setItem("participantsS", [])
 }
 // function darkmode() {
@@ -172,7 +177,7 @@ function clean() {
 //     } else {
 //         localStorage.setItem("darkmode", true)
 //     }
-    
+
 
 
 
@@ -193,63 +198,36 @@ function clearEverything() {
 
 //Promise?
 function deleteParticipant(id) {
-    if (participants.length == 1) {
-        let name = participants[id - 1].name
-        Swal.fire({
-            title: '¿Estas seguro?',
-            text: `Eliminar a ${participants[id - 1].name}`,
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Si, borrar'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                Swal.fire(
-                    'Borrado!',
-                    `¡${name} eliminado!`,
-                    'success'
-                )
-                let toDelete = participants.splice(id - 1, 1)
-                calculate()
-                separateUsers()
-                prestadorDeudor()
-                showParticipants(participants)
-                save()
-            }
-        })
-    } else {
-        let name = participants[id].name
-        Swal.fire({
-            title: '¿Estas seguro?',
-            text: `Eliminar a ${participants[id].name}`,
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Si, borrar'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                Swal.fire(
-                    'Borrado!',
-                    `¡${name} eliminado!`,
-                    'success'
-                )
-                let toDelete = participants.splice(id, 1)
-                calculate()
-                separateUsers()
-                prestadorDeudor()
-                showParticipants(participants)
-                save()
-            }
-        })
-    }
-
+    let name = participants[id].name
+    Swal.fire({
+        title: '¿Estas seguro?',
+        text: `Eliminar a ${participants[id].name}`,
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Si, borrar'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            Swal.fire(
+                'Borrado!',
+                `¡${name} eliminado!`,
+                'success'
+            )
+            participants.splice(id, 1)
+            calculate()
+            separateUsers()
+            prestadorDeudor()
+            showParticipants(participants)
+            save()
+        }
+    })
 }
+
 
 //Mostrar
 function showParticipants(participants) {
-    if (participants == '') {
+    if (participants.length == 0) {
         results.innerHTML = ``
         let nuevoParticipant = document.createElement("h3")
         nuevoParticipant.innerText = `No hay participantes ingresados`
@@ -274,9 +252,10 @@ function showParticipants(participants) {
     }
 }
 
+
 function showResult(total, balanceSheet, participants, porPersona) {
     let mode = localStorage.getItem("mode")
-    if (mode == "restaurant"){
+    if (mode == "restaurant") {
         const { price, tipPercentage, tipsAmount, priceWTips } = getTips()
         resultados.innerHTML = `<div id="restaurantNumbers"></div>
                                 <div id="finalNumbers"></div>
@@ -284,15 +263,15 @@ function showResult(total, balanceSheet, participants, porPersona) {
                                 <div id="finalResult"></div>`
         let restaurantNumbers = document.getElementById("restaurantNumbers")
         let split = document.createElement("div")
-        split.innerHTML = ` <h3>Precio sin propina: ${total} </h3>
+        split.innerHTML = ` <h3>Precio sin propina: $${price.value} </h3>
                             <h3>Porcentaje de propina: ${tipPercentage.value}%</h3>
-                            <h3>Precio con propina de ${tipPercentage.value}% : $${priceWTips} </h3>
-                            <h3>Propinas: $${tipsAmount}</h3>`
+                            <h3>Propinas: $${tipsAmount}</h3>
+                            <h3>Precio + propinas: $${priceWTips} </h3>`
         restaurantNumbers.appendChild(split)
 
         let finalNumbers = document.getElementById("finalNumbers")
         let numbers = document.createElement("div")
-        finalNumbers.innerHTML = ` <li style="color: #252525">Total gastado: $${total.value}</li>
+        finalNumbers.innerHTML = ` <li style="color: #252525">Total gastado: $${total}</li>
                                    <li style="color: #252525">Total participantes: ${participants.length}</li>
                                    <li style="color: #252525">Monto por persona: $${Math.round(porPersona)}</li>`
         finalNumbers.appendChild(numbers)
@@ -332,26 +311,26 @@ function showResult(total, balanceSheet, participants, porPersona) {
             resultados.innerHTML = `<div id="finalNumbers"></div>
                                     <div id="finalParticipants"></div>
                                     <div id="finalResult"></div>`
-    
+
             let finalNumbers = document.getElementById("finalNumbers")
             let numbers = document.createElement("div")
             finalNumbers.innerHTML = ` <li style="color: #252525">Total gastado: $${total}</li>
                                        <li style="color: #252525">Total participantes: ${participants.length}</li>
                                        <li style="color: #252525">Monto por persona: $${Math.round(porPersona)}</li>`
             finalNumbers.appendChild(numbers)
-    
+
             let finalParticipants = document.getElementById("finalParticipants")
             let h3Participants = document.createElement("h3")
             h3Participants.innerText = `Participantes`
             finalParticipants.appendChild(h3Participants)
-    
-    
+
+
             for (let p of participants) {
                 let nuevoParticipant = document.createElement("li")
                 nuevoParticipant.innerText = `${p.name}`
                 finalParticipants.appendChild(nuevoParticipant)
             }
-    
+
             let finalResult = document.getElementById("finalResult")
             finalResult.innerHTML = ''
             if (balanceSheet == '') {
@@ -424,11 +403,11 @@ buttonStart.onclick = () => {
     let mode = localStorage.getItem("mode")
     if (mode == "restaurant") {
         getTips(),
-        calculate(),
-        separateUsers(),
-        prestadorDeudor(),
-        showParticipants(participants),
-        save()
+            calculate(),
+            separateUsers(),
+            prestadorDeudor(),
+            showParticipants(participants),
+            save()
     }
     if (participants == '') {
         Swal.fire({
@@ -449,10 +428,10 @@ let buttonNew = document.getElementById("new")
 buttonNew.onclick = () => {
     getTips()
     calculate(),
-            separateUsers(),
-            prestadorDeudor(),
-            showParticipants(participants),
-            save()
+        separateUsers(),
+        prestadorDeudor(),
+        showParticipants(participants),
+        save()
     // clearEverything(),
     //     clean()
 }
@@ -482,7 +461,7 @@ buttonChangeName.onclick = () => {
             icon: 'error',
             title: 'Oops...',
             text: `No hay participantes para modificar`,
-        }) 
+        })
     } else {
         edit(participants, 4),
             calculate(),
@@ -494,13 +473,6 @@ buttonChangeName.onclick = () => {
 }
 
 
-if (localStorage.getItem("participantsS") !== []) {
-    participants = JSON.parse(localStorage.getItem("participantsS"))
-        calculate(),
-        separateUsers(participants),
-        prestadorDeudor(),
-        showParticipants(participants)
-}
 
 
 let checkBox = document.getElementById("checkbox")
@@ -511,14 +483,13 @@ checkBox.addEventListener('change', () => {
         restaurantContainer.innerHTML = `<div class="form__group field" id="priceContainer">
         <input type="number" class="form__field" placeholder="price" name="name" id="price" required />
         <label for="name" class="form__label">Precio</label>
-    </div>
-    <div class="form__group field" id="tipsContainer">
+        </div>
+        <div class="form__group field" id="tipsContainer">
         <input type="number" class="form__field" placeholder="tips" name="name" id="tips" required />
         <label for="name" class="form__label">Propinas</label>
-    </div>
+        </div>
         <h2>%</h2>`
-        
-    } else{
+    } else {
         localStorage.setItem("mode", "juntada")
         let textConfig = document.getElementById("textConfig")
         textConfig.innerText = `Juntada`
@@ -526,6 +497,52 @@ checkBox.addEventListener('change', () => {
     }
 })
 
+
+
+
+
+
+
+
+//Reload
+
+if (localStorage.getItem("mode") == "restaurant") {
+    checkBox.checked = true
+    textConfig.innerText = `Restaurante`
+    restaurantContainer.innerHTML = `<div class="form__group field" id="priceContainer">
+            <input type="number" class="form__field" placeholder="price" name="name" id="price" required />
+            <label for="name" class="form__label">Precio</label>
+        </div>
+        <div class="form__group field" id="tipsContainer">
+            <input type="number" class="form__field" placeholder="tips" name="name" id="tips" required />
+            <label for="name" class="form__label">Propinas</label>
+        </div>
+        <h2>%</h2>`
+}
+
+participants = JSON.parse(localStorage.getItem("participantsS"))
+if (participants == undefined) {
+    participants = []
+    localStorage.setItem("price", 0)
+    localStorage.setItem("tipPercentage", 0)
+}
+if ((participants.length !== 0) && (localStorage.getItem("mode") == "juntada")) {
+    calculate(),
+        separateUsers(),
+        prestadorDeudor(),
+        showParticipants(participants),
+        save()
+} else if ((participants.length !== 0) && (localStorage.getItem("mode") == "restaurant")) {
+    let price = document.getElementById("price")
+    let tipPercentage = document.getElementById("tips")
+    price.value = localStorage.getItem("price")
+    tipPercentage.value = localStorage.getItem("tipPercentage")
+    calculate(),
+        separateUsers(),
+        prestadorDeudor(),
+        showParticipants(participants),
+        save()
+}
 
 
 //Modal
