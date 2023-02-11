@@ -35,10 +35,11 @@
 //  1. Guardar preferencia de modo                          SOLUCIONADO
 //  1. Mejorar edits
 //  1. No guarda cuenta anterior ni configuraciones         SOLUCIONADO
-//  1. No muestra precio en restaurante total
+//  1. No muestra precio en restaurante total               SOLUCIONADO
 //  1. Implementar edit con boton parecido borrar
 //  1. Total gastado convertir en juntado y avisar si no coincide
 //  1. Simplificar showresults
+//  1. Revisar inicio en restaurante y error
 
 //NODE AVERIGUAR PARA EDICION
 
@@ -96,6 +97,9 @@ function newParticipant() {
 function getTips() {
     let price = document.getElementById("price")
     let tipPercentage = document.getElementById("tips")
+    if (tipPercentage.value == '') {
+        tipPercentage.value = 0
+    }
     let tipsAmount = parseInt(price.value) * (parseInt(tipPercentage.value)) / 100
     let priceWTips = parseInt(price.value) + tipsAmount
     return { price, tipPercentage, tipsAmount, priceWTips }
@@ -108,9 +112,9 @@ function calculate() {
     if (mode == "restaurant") {
         const { price, tipPercentage, tipsAmount, priceWTips } = getTips()
         const total = priceWTips
+        const sumado = participants.reduce((acc, user) => acc + user.amount, 0)
         const porPersona = priceWTips / participants.length
-        console.log(total)
-        return { total, porPersona }
+        return { total, porPersona, sumado }
     } else {
         const total = participants.reduce((acc, user) => acc + user.amount, 0)
         const porPersona = total / participants.length
@@ -129,7 +133,6 @@ function separateUsers() {
 
 function prestadorDeudor() {
     const { total, porPersona } = calculate()
-    console.log(total)
     const { prestadores, deudores } = separateUsers()
     const balanceSheet = []
     deudores.forEach(deudor => {
@@ -158,7 +161,7 @@ function prestadorDeudor() {
 //Storage
 function save() {
     localStorage.setItem("participantsS", JSON.stringify(participants))
-    if (localStorage.getItem("mode") == "restaurant"){
+    if (localStorage.getItem("mode") == "restaurant") {
         let price = document.getElementById("price")
         let tipPercentage = document.getElementById("tips")
         localStorage.setItem("price", price.value)
@@ -198,10 +201,12 @@ function clearEverything() {
 
 //Promise?
 function deleteParticipant(id) {
-    let name = participants[id].name
+    let index = id
+    let foundedPosition = participants.findIndex((participants) => participants.id == index)
+    let name = participants[foundedPosition].name
     Swal.fire({
         title: '¿Estas seguro?',
-        text: `Eliminar a ${participants[id].name}`,
+        text: `Eliminar a ${participants[foundedPosition].name}`,
         icon: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
@@ -214,18 +219,18 @@ function deleteParticipant(id) {
                 `¡${name} eliminado!`,
                 'success'
             )
-            participants.splice(id, 1)
+            participants.splice(foundedPosition, 1)
+            save()
             calculate()
             separateUsers()
             prestadorDeudor()
             showParticipants(participants)
-            save()
         }
     })
 }
 
 
-//Mostrar
+//Mostrar participantes
 function showParticipants(participants) {
     if (participants.length == 0) {
         results.innerHTML = ``
@@ -252,79 +257,77 @@ function showParticipants(participants) {
     }
 }
 
-
+//Mostrar resultados numeros
 function showResult(total, balanceSheet, participants, porPersona) {
+    resultados.innerHTML = `<div id="restaurantNumbers"></div>
+                            <div id="finalNumbers"></div>
+                            <div id="finalParticipants"></div>
+                            <div id="finalResult"></div>`
     let mode = localStorage.getItem("mode")
     if (mode == "restaurant") {
-        const { price, tipPercentage, tipsAmount, priceWTips } = getTips()
-        resultados.innerHTML = `<div id="restaurantNumbers"></div>
-                                <div id="finalNumbers"></div>
-                                <div id="finalParticipants"></div>
-                                <div id="finalResult"></div>`
-        let restaurantNumbers = document.getElementById("restaurantNumbers")
-        let split = document.createElement("div")
-        split.innerHTML = ` <h3>Precio sin propina: $${price.value} </h3>
-                            <h3>Porcentaje de propina: ${tipPercentage.value}%</h3>
-                            <h3>Propinas: $${tipsAmount}</h3>
-                            <h3>Precio + propinas: $${priceWTips} </h3>`
-        restaurantNumbers.appendChild(split)
-
-        let finalNumbers = document.getElementById("finalNumbers")
-        let numbers = document.createElement("div")
-        finalNumbers.innerHTML = ` <li style="color: #252525">Total gastado: $${total}</li>
-                                   <li style="color: #252525">Total participantes: ${participants.length}</li>
-                                   <li style="color: #252525">Monto por persona: $${Math.round(porPersona)}</li>`
-        finalNumbers.appendChild(numbers)
-
-        let finalParticipants = document.getElementById("finalParticipants")
-        let h3Participants = document.createElement("h3")
-        h3Participants.innerText = `Participantes`
-        finalParticipants.appendChild(h3Participants)
-
-
-        for (let p of participants) {
-            let nuevoParticipant = document.createElement("li")
-            nuevoParticipant.innerText = `${p.name}`
-            finalParticipants.appendChild(nuevoParticipant)
-        }
-
-        let finalResult = document.getElementById("finalResult")
-        finalResult.innerHTML = ''
-        if (balanceSheet == '') {
-            let h3Result = document.createElement("h3")
-            h3Result.innerText = `No se debe`
-            finalResult.appendChild(h3Result)
-        } else {
-            let h3Result = document.createElement("h3")
-            h3Result.innerText = `Resultados`
-            finalResult.appendChild(h3Result)
-            for (let p of balanceSheet) {
-                let nuevoResultado = document.createElement("h3")
-                nuevoResultado.innerText = `${p.name} debe pagar: $${Math.round(p.debePagar)} a ${p.a}`
-                finalResult.appendChild(nuevoResultado)
-            }
-        }
-    } else {
-        if (participants == '') {
+        if (participants.length == 0) {
             resultados.innerHTML = ''
         } else {
-            resultados.innerHTML = `<div id="finalNumbers"></div>
-                                    <div id="finalParticipants"></div>
-                                    <div id="finalResult"></div>`
+            const { total, porPersona, sumado } = calculate()
+            const { price, tipPercentage, tipsAmount, priceWTips } = getTips()
+            let restaurantNumbers = document.getElementById("restaurantNumbers")
+            let split = document.createElement("div")
+            split.innerHTML = ` <h3>Precio sin propina: $${price.value} </h3>
+                                <h3>Porcentaje de propina: ${tipPercentage.value}%</h3>
+                                <h3>Propinas: $${tipsAmount}</h3>
+                                <h3>Precio + propinas: $${priceWTips} </h3>`
+            restaurantNumbers.appendChild(split)
 
             let finalNumbers = document.getElementById("finalNumbers")
             let numbers = document.createElement("div")
-            finalNumbers.innerHTML = ` <li style="color: #252525">Total gastado: $${total}</li>
-                                       <li style="color: #252525">Total participantes: ${participants.length}</li>
-                                       <li style="color: #252525">Monto por persona: $${Math.round(porPersona)}</li>`
+            finalNumbers.innerHTML = ` <li>Total sumado: $${sumado}</li>
+                                       <li>Total participantes: ${participants.length}</li>
+                                       <li>Monto por persona: $${Math.round(porPersona)}</li>`
             finalNumbers.appendChild(numbers)
 
             let finalParticipants = document.getElementById("finalParticipants")
             let h3Participants = document.createElement("h3")
             h3Participants.innerText = `Participantes`
             finalParticipants.appendChild(h3Participants)
+            for (let p of participants) {
+                let nuevoParticipant = document.createElement("li")
+                nuevoParticipant.innerText = `${p.name}`
+                finalParticipants.appendChild(nuevoParticipant)
+            }
 
+            let finalResult = document.getElementById("finalResult")
+            finalResult.innerHTML = ''
+            if (balanceSheet == '') {
+                let h3Result = document.createElement("h3")
+                h3Result.innerText = `No se debe`
+                finalResult.appendChild(h3Result)
+            } else {
+                let h3Result = document.createElement("h3")
+                h3Result.innerText = `Resultados`
+                finalResult.appendChild(h3Result)
+                for (let p of balanceSheet) {
+                    let nuevoResultado = document.createElement("h3")
+                    nuevoResultado.innerText = `${p.name} debe pagar: $${Math.round(p.debePagar)} a ${p.a}`
+                    finalResult.appendChild(nuevoResultado)
+                }
+            }
+        }
 
+    } else {
+        if (participants.length == 0) {
+            resultados.innerHTML = ''
+        } else {
+            let finalNumbers = document.getElementById("finalNumbers")
+            let numbers = document.createElement("div")
+            finalNumbers.innerHTML = ` <li>Total gastado: $${total}</li>
+                                       <li>Total participantes: ${participants.length}</li>
+                                       <li>Monto por persona: $${Math.round(porPersona)}</li>`
+            finalNumbers.appendChild(numbers)
+
+            let finalParticipants = document.getElementById("finalParticipants")
+            let h3Participants = document.createElement("h3")
+            h3Participants.innerText = `Participantes`
+            finalParticipants.appendChild(h3Participants)
             for (let p of participants) {
                 let nuevoParticipant = document.createElement("li")
                 nuevoParticipant.innerText = `${p.name}`
@@ -349,6 +352,7 @@ function showResult(total, balanceSheet, participants, porPersona) {
             }
         }
     }
+
 }
 
 //Modificar Nombre o Monto
@@ -402,25 +406,48 @@ let buttonStart = document.getElementById("start")
 buttonStart.onclick = () => {
     let mode = localStorage.getItem("mode")
     if (mode == "restaurant") {
-        getTips(),
-            calculate(),
-            separateUsers(),
-            prestadorDeudor(),
-            showParticipants(participants),
-            save()
-    }
-    if (participants == '') {
-        Swal.fire({
-            icon: 'warning',
-            title: 'Cuidado',
-            text: `No hay participantes`,
-        })
+        let price = document.getElementById("price")
+        if (price.value == 0) {
+            Swal.fire({
+                icon: 'warning',
+                title: 'Cuidado',
+                text: `No ingresó precio`,
+            })
+        } else {
+            getTips(),
+                calculate(),
+                separateUsers(),
+                prestadorDeudor(),
+                showParticipants(participants),
+                save()
+            if (participants == '') {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Cuidado',
+                    text: `No hay participantes`,
+                })
+            } else {
+                calculate(),
+                    separateUsers(),
+                    prestadorDeudor(),
+                    showParticipants(participants),
+                    save()
+            }
+        }
     } else {
-        calculate(),
-            separateUsers(),
-            prestadorDeudor(),
-            showParticipants(participants),
-            save()
+        if (participants == '') {
+            Swal.fire({
+                icon: 'warning',
+                title: 'Cuidado',
+                text: `No hay participantes`,
+            })
+        } else {
+            calculate(),
+                separateUsers(),
+                prestadorDeudor(),
+                showParticipants(participants),
+                save()
+        }
     }
 }
 
@@ -525,6 +552,7 @@ if (participants == undefined) {
     participants = []
     localStorage.setItem("price", 0)
     localStorage.setItem("tipPercentage", 0)
+    localStorage.setItem("mode", "juntada")
 }
 if ((participants.length !== 0) && (localStorage.getItem("mode") == "juntada")) {
     calculate(),
