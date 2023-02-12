@@ -24,22 +24,24 @@
 //  1. Dark mode                                            
 //  1. Revisar aplicado de Propina                          SOLUCIONADO
 //  3. Restaurante y Grupales, sin un precio fijo           SOLUCIONADO
-//  4. Generar texto para compartir                         
 //  1. Incluir operadores ternarios                         
 //  4. Realizar grafico                                              
-//  4. Hacer responsive                                     
-//  1. Cambiar a switch edit()                              
+//  4. Hacer responsive                                     SOLUCIONADO                       
 //  1. Monto permite +-                                     
 //  1. Error al eliminar de ultimo al primero               SOLUCIONADO
 //  1. Primera carga no elimina restaurante                 SOLUCIONADO
 //  1. Guardar preferencia de modo                          SOLUCIONADO
-//  1. Mejorar edits
+//  1. Mejorar edits                                        SOLUCIONADO
 //  1. No guarda cuenta anterior ni configuraciones         SOLUCIONADO
 //  1. No muestra precio en restaurante total               SOLUCIONADO
-//  1. Implementar edit con boton parecido borrar
+//  1. Implementar edit con boton parecido borrar           SOLUCIONADO
 //  1. Sumado y precio no coinciden, alert                  SOLUCIONADO
 //  1. Simplificar showresults                              SOLUCIONADO
 //  1. Revisar inicio en restaurante y error                SOLUCIONADO
+//  1. Realizar responsive escritorio                       
+//  1. Boton cancel, cambiar a español                      
+//  1. Simplifcar edit                                      SOLUCIONADO
+//  1. Revisar showParticipants()
 
 //NODE AVERIGUAR PARA EDICION
 
@@ -66,10 +68,7 @@ let tipsContainer = document.getElementById("tipsContainer")
 let results = document.getElementById("participantList")
 
 let resultados = document.getElementById("resultados")
-let name_monto = document.getElementById("name_monto")
-let new_monto = document.getElementById("new_monto")
-let old_name = document.getElementById("old_name")
-let new_name = document.getElementById("new_name")
+
 let nombreInput = document.getElementById("name")
 let montoInput = document.getElementById("monto")
 let participants = []
@@ -155,7 +154,27 @@ function prestadorDeudor() {
     return balanceSheet
 }
 
-
+function checkMoney() {
+    const { total, porPersona, sumado } = calculate()
+    const { price, tipPercentage, tipsAmount, priceWTips } = getTips()
+    if (priceWTips > sumado) {
+        let sumadoStyle = document.getElementById("sumadoStyle")
+        sumadoStyle.classList.add("errorDinero")
+        Swal.fire({
+            icon: 'error',
+            title: 'Cuidado',
+            text: `Falta plata, revise`,
+        })
+    } else if (priceWTips < sumado) {
+        let sumadoStyle = document.getElementById("sumadoStyle")
+        sumadoStyle.classList.add("noErrorDinero")
+        Swal.fire({
+            icon: 'info',
+            title: 'Cuidado',
+            text: `Plata de mas, modifique`,
+        })
+    }
+}
 
 
 //Storage
@@ -172,16 +191,6 @@ function clean() {
     //Restaurant?
     localStorage.setItem("participantsS", [])
 }
-// function darkmode() {
-//     console.log("a")
-//     let preference = localStorage.getItem("darkmode")
-//     if (preference) {
-//         localStorage.setItem("darkmode", false)
-//     } else {
-//         localStorage.setItem("darkmode", true)
-//     }
-
-
 
 
 //Limpiar
@@ -238,12 +247,11 @@ function showParticipants(participants) {
         nuevoParticipant.innerText = `No hay participantes ingresados`
         results.appendChild(nuevoParticipant)
     } else {
-        results.innerHTML = `<div class="participantsDescription">
-                                    <h2>N°</h2>
-                                    <h2>Nombre</h2>
-                                    <h2>Puso</h2>
-                                    <h2>.</h2>
-                                </div>`
+        results.innerHTML = ``
+        let h2Participants = document.createElement("h2")
+        h2Participants.innerText = `Participantes`
+        results.appendChild(h2Participants)
+
         for (let p of participants) {
             let nuevoParticipant = document.createElement("div")
             nuevoParticipant.innerHTML = `
@@ -251,7 +259,8 @@ function showParticipants(participants) {
                     <h3>${p.id}</h3>
                     <h3>${p.name}</h3>
                     <h3>$${p.amount}</h3>
-                    <button id="p.n${p.id}" class="button-1" role="button"><img src="bin.png" alt="delete" onclick="deleteParticipant(${p.id})"></button>
+                    <button id="e.n${p.id}" class="button4" role="button"><img src="edit.png" alt="delete" onclick="editModal(${p.id})"></button>
+                    <button id="p.n${p.id}" class="button5" role="button"><img src="bin.png" alt="delete" onclick="deleteParticipant(${p.id})"></button>
                 </div>`
             results.appendChild(nuevoParticipant)
         }
@@ -260,7 +269,8 @@ function showParticipants(participants) {
 
 //Mostrar resultados numeros
 function showResult(total, balanceSheet, participants, porPersona) {
-    resultados.innerHTML = `<div id="restaurantNumbers"></div>
+    resultados.innerHTML = `<div id="modePresentation"></div>
+                            <div id="restaurantNumbers"></div>
                             <div id="finalNumbers"></div>
                             <div id="finalParticipants"></div>
                             <div id="finalResult"></div>`
@@ -269,43 +279,32 @@ function showResult(total, balanceSheet, participants, porPersona) {
         if (participants.length == 0) {
             resultados.innerHTML = ''
         } else {
+            let modePresentation = document.getElementById("modePresentation")
+
+            let h2Restaurant = document.createElement("h2")
+            h2Restaurant.innerText = `Restaurante`
+            modePresentation.appendChild(h2Restaurant)
+
             const { total, porPersona, sumado } = calculate()
             const { price, tipPercentage, tipsAmount, priceWTips } = getTips()
-            
-            
-            let restaurantNumbers = document.getElementById("restaurantNumbers")
-            restaurantNumbers.innerHTML =` <h3>Precio sin propina: $${price.value} </h3>
+
+            let restaurantResume = document.createElement("div")
+            restaurantResume.innerHTML = ` <h3>Precio sin propina: $${price.value} </h3>
             <h3>Porcentaje de propina: ${tipPercentage.value}%</h3>
             <h3>Propinas: $${tipsAmount}</h3>
             <h3>Precio + propinas: $${priceWTips} </h3>`
-            
+            restaurantNumbers.appendChild(restaurantResume)
+
             let finalNumbers = document.getElementById("finalNumbers")
             let numbers = document.createElement("div")
             finalNumbers.innerHTML = ` <li id="sumadoStyle">Total sumado: $${sumado}</li>
                 <li>Total participantes: ${participants.length}</li>
                 <li>Monto por persona: $${Math.round(porPersona)}</li>`
-            if (priceWTips > sumado) {
-                let sumadoStyle  = document.getElementById("sumadoStyle")
-                sumadoStyle.classList.add("errorDinero")
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Cuidado',
-                    text: `Falta plata, revise`,
-                })
-            } else{
-                let sumadoStyle  = document.getElementById("sumadoStyle")
-                sumadoStyle.classList.add("noErrorDinero")
-                Swal.fire({
-                    icon: 'info',
-                    title: 'Cuidado',
-                    text: `Plata de mas, modifique`,
-                })
-            }
             finalNumbers.appendChild(numbers)
 
             let finalParticipants = document.getElementById("finalParticipants")
             let h3Participants = document.createElement("h3")
-            h3Participants.innerText = `Participantes`
+            h3Participants.innerText = `Nombres`
             finalParticipants.appendChild(h3Participants)
             for (let p of participants) {
                 let nuevoParticipant = document.createElement("li")
@@ -315,6 +314,7 @@ function showResult(total, balanceSheet, participants, porPersona) {
 
             let finalResult = document.getElementById("finalResult")
             finalResult.innerHTML = ''
+            checkMoney()
             if (balanceSheet == '') {
                 let h3Result = document.createElement("h3")
                 h3Result.innerText = `No se debe`
@@ -354,6 +354,7 @@ function showResult(total, balanceSheet, participants, porPersona) {
 
             let finalResult = document.getElementById("finalResult")
             finalResult.innerHTML = ''
+            checkMoney()
             if (balanceSheet == '') {
                 let h3Result = document.createElement("h3")
                 h3Result.innerText = `No se debe`
@@ -374,26 +375,71 @@ function showResult(total, balanceSheet, participants, porPersona) {
 }
 
 //Modificar Nombre o Monto
-function edit(array, optionStart) {
-    //Cambiar a switch
-    let updParticipantM = 0
-    let updParticipantN = ''
-    if (optionStart == 3) {
-        updParticipantM = 0
-        updParticipantN = ''
-        let searchedName = name_monto.value
-        let foundedID = array.findIndex((participante) => participante.name.toLowerCase() == searchedName.toLowerCase())
-        updParticipantM = array[foundedID].amount = parseInt(new_monto.value)
-        name_monto.value = '', new_monto.value = ''
-    } else if (optionStart == 4) {
-        updParticipantM = 0
-        updParticipantN = ''
-        let searchedName = old_name.value
-        let foundedID = array.findIndex((participante) => participante.name.toLowerCase() == searchedName.toLowerCase())
-        updParticipantN = array[foundedID].name = new_name.value
-        old_name.value = '', new_name.value = ''
+
+function refreshNav() {
+    let closeName = document.getElementById("closeName")
+    closeName.innerHTML = `<span class="close">&times;</span>`
+}
+
+function modal(name, amount) {
+    refreshNav()
+    let closeName = document.getElementById("closeName")
+    var modal = document.getElementById("myModal")
+    modal.style.display = "block"
+    var span = document.getElementsByClassName("close")[0]
+    span.onclick = function () {
+        modal.style.display = "none"
+        refreshNav()
+    }
+    window.onclick = function (event) {
+        if (event.target == modal) {
+            modal.style.display = "none"
+        }
+    }
+
+    let nameANDamount = document.createElement("h2")
+    nameANDamount.innerText = `${name}  $${amount}`
+    closeName.appendChild(nameANDamount)
+}
+
+function editModal(id) {
+
+    let index = id
+    let foundedPosition = participants.findIndex((participants) => participants.id == index)
+    let name = participants[id].name
+    let amount = participants[id].amount
+
+    modal(name, amount)
+
+    console.log(id)
+    let new_monto = document.getElementById("new_monto")
+    let new_name = document.getElementById("new_name")
+
+    let buttonChangeMonto = document.getElementById("changeMonto")
+    buttonChangeMonto.onclick = () => {
+        participants[foundedPosition].amount = parseInt(new_monto.value)
+        new_monto.value = ''
+        editModal(id)
+        calculate(),
+        separateUsers(),
+        prestadorDeudor(),
+        showParticipants(participants),
+        save()
+    }
+
+    let buttonChangeName = document.getElementById("changeName")
+    buttonChangeName.onclick = () => {
+        participants[foundedPosition].name = new_name.value
+        new_name.value = ''
+        editModal(id)
+        calculate(),
+        separateUsers(),
+        prestadorDeudor(),
+        showParticipants(participants),
+        save()
     }
 }
+
 
 
 
@@ -481,44 +527,6 @@ buttonNew.onclick = () => {
     //     clean()
 }
 
-let buttonChangeMonto = document.getElementById("changeMonto")
-buttonChangeMonto.onclick = () => {
-    if (participants == '') {
-        Swal.fire({
-            icon: 'error',
-            title: 'Oops...',
-            text: 'No hay participantes para modificar',
-        })
-    } else {
-        edit(participants, 3),
-            calculate(),
-            separateUsers(),
-            prestadorDeudor(),
-            showParticipants(participants),
-            save()
-    }
-}
-
-let buttonChangeName = document.getElementById("changeName")
-buttonChangeName.onclick = () => {
-    if (participants == '') {
-        Swal.fire({
-            icon: 'error',
-            title: 'Oops...',
-            text: `No hay participantes para modificar`,
-        })
-    } else {
-        edit(participants, 4),
-            calculate(),
-            separateUsers(),
-            prestadorDeudor(),
-            showParticipants(participants),
-            save()
-    }
-}
-
-
-
 
 let checkBox = document.getElementById("checkbox")
 checkBox.addEventListener('change', () => {
@@ -592,17 +600,4 @@ if ((participants.length !== 0) && (localStorage.getItem("mode") == "juntada")) 
 
 
 //Modal
-var modal = document.getElementById("myModal");
-var btn = document.getElementById("myBtn");
-var span = document.getElementsByClassName("close")[0];
-btn.onclick = function () {
-    modal.style.display = "block";
-}
-span.onclick = function () {
-    modal.style.display = "none";
-}
-window.onclick = function (event) {
-    if (event.target == modal) {
-        modal.style.display = "none";
-    }
-}
+;

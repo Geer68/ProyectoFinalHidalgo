@@ -1,11 +1,14 @@
 nav {
-  background-color: rgba(11, 97, 112, 0.5333333333);
+  background-color: rgba(11, 97, 112, 0.8392156863);
   width: 100%;
   display: flex;
   justify-items: center;
   justify-content: center;
+  align-content: center;
+  min-height: 30px;
 }
 nav h1 {
+  padding-top: 5px;
   color: white;
   font-weight: bold;
 }
@@ -63,20 +66,31 @@ nav h1 {
 #restaurantNumbers, #finalNumbers, #finalParticipants, #finalResult {
   width: 100%;
   padding: 5px 7px;
-  background-color: rgba(170, 170, 170, 0.4901960784);
+  background-color: rgba(221, 221, 221, 0.4901960784);
   margin-bottom: 5px;
   border-radius: 5px;
 }
 
-#finalParticipants h3 {
-  margin-top: 5px;
+#modePresentation {
+  width: 100%;
+}
+#modePresentation h2 {
   text-align: center;
-  font-weight: bolder;
+  font-weight: bold;
+  margin-bottom: 5px;
 }
 
 .rowContainer {
   width: 100%;
-  padding: 15px;
+  padding: 0 10px 0 10px;
+}
+.rowContainer h2 {
+  text-align: center;
+  font-weight: bold;
+  margin-bottom: 15px;
+}
+.rowContainer h3 {
+  text-align: center;
 }
 
 .participantsDescription {
@@ -260,7 +274,11 @@ input:checked + .slider:before {
   margin: 0 10px;
 }
 
-.errorDinero text {
+.noErrorDinero {
+  color: rgb(33, 151, 0);
+}
+
+.errorDinero {
   color: red;
 }
 
@@ -284,8 +302,16 @@ input:checked + .slider:before {
   border: 1px solid #888;
   width: 80%;
 }
-.modal-content button {
+
+.buttonContainer {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+.buttonContainer button {
   margin-top: 15px;
+  max-width: 300px;
+  min-width: 150px;
 }
 
 .close {
@@ -323,7 +349,7 @@ input:checked + .slider:before {
   cursor: pointer;
   display: inline-block;
   font-size: 14px;
-  font-weight: 500;
+  font-weight: 600;
   line-height: 20px;
   list-style: none;
   margin: 0;
@@ -346,7 +372,7 @@ input:checked + .slider:before {
   cursor: pointer;
   display: inline-block;
   font-size: 14px;
-  font-weight: 500;
+  font-weight: 600;
   line-height: 20px;
   list-style: none;
   margin: 0;
@@ -369,7 +395,7 @@ input:checked + .slider:before {
   cursor: pointer;
   display: inline-block;
   font-size: 14px;
-  font-weight: 500;
+  font-weight: 600;
   line-height: 20px;
   list-style: none;
   margin: 0;
@@ -384,48 +410,81 @@ input:checked + .slider:before {
   background-color: #C69E38;
 }
 
-.button-1 {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  background-color: #de5858;
+.button4 {
+  background-color: rgba(51, 51, 51, 0.05);
   border-radius: 8px;
-  border-style: none;
-  box-sizing: border-box;
-  color: #FFFFFF;
+  border-width: 0;
+  color: #ffffff;
   cursor: pointer;
   display: inline-block;
-  font-family: "Haas Grot Text R Web", "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-size: 14px;
-  font-weight: 500;
-  height: 40px;
+  font-weight: 600;
   line-height: 20px;
   list-style: none;
   margin: 0;
-  outline: none;
-  padding: 25px 25px;
-  position: relative;
+  padding: 10px 12px;
   text-align: center;
-  text-decoration: none;
-  transition: color 100ms;
+  transition: all 200ms;
   vertical-align: baseline;
+  white-space: nowrap;
   user-select: none;
   -webkit-user-select: none;
   touch-action: manipulation;
-  max-width: 40px;
-  max-height: 40px;
+  background-color: #C69E38;
+  padding: 0px;
 }
-.button-1 img {
-  max-width: 30px;
-  max-height: 30px;
-  margin: 0px;
+.button4 img {
+  max-width: 20px;
+  max-height: 20px;
   margin: 10px;
 }
 
-.button-1:hover,
-.button-1:focus {
-  background-color: #F082AC;
+.button5 {
+  background-color: rgba(51, 51, 51, 0.05);
+  border-radius: 8px;
+  border-width: 0;
+  color: #ffffff;
+  cursor: pointer;
+  display: inline-block;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 20px;
+  list-style: none;
+  margin: 0;
+  padding: 10px 12px;
+  text-align: center;
+  transition: all 200ms;
+  vertical-align: baseline;
+  white-space: nowrap;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  background-color: #bf2d2b;
+  padding: 0px;
+}
+.button5 img {
+  max-width: 20px;
+  max-height: 20px;
+  margin: 10px;
+}
+
+.navModal {
+  width: 100%;
+  display: flex;
+  align-content: center;
+  align-items: center;
+  justify-content: left;
+}
+.navModal span {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+  align-items: ce;
+  margin-right: 15px;
+}
+.navModal h2 {
+  margin: 0px;
 }
 
 .checkbox-wrapper-22 .switch {
