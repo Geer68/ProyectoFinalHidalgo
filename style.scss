@@ -8,7 +8,6 @@ nav {
   align-content: center;
   min-height: 30px;
   h1 {
-    
     padding-top: 5px;
     color: white;
     font-weight: bold;
@@ -58,7 +57,6 @@ nav {
   align-items: start;
   justify-items: left;
   margin-top: 15px;
-
   h2, h3 {
     color: #252525;
     margin: 0px;
@@ -103,11 +101,8 @@ nav {
   justify-content: space-between;
   margin-bottom: 10px;
 
-  h2 {
-    text-align: center;
-    margin-right: 150px;
-    color: #252525;
-    margin: 0px;
+  h3 {
+    min-width: 70px;
   }
 }
 
@@ -267,11 +262,6 @@ input:checked+.slider:before {
   }
 }
 
-#finalResult {
-  h3 {
-    color: #252525;
-  }
-}
 
 
 
@@ -301,7 +291,7 @@ input:checked+.slider:before {
   color: rgb(33, 151, 0);
 }
 
-.errorDinero {
+#errorDinero, .errorDinero {
   color: red;
 }
 
@@ -440,6 +430,27 @@ $color_1: #f0f0f0;
     margin: 10px;
   }
 }
+.previousContainer {
+  width: 80%;
+  margin-top: 10px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center
+}
+.button6 {
+  @include button();
+  background-color: #0B6170;
+  width: 50px;
+  height: 40px;
+  padding: 0px;
+  img {
+    max-width: 20px;
+    max-height: 20px;
+    margin: 0px;
+  }
+
+}
 
 .navModal {
   width: 100%;
@@ -459,63 +470,25 @@ $color_1: #f0f0f0;
     margin: 0px;
   }
 }
-
-
-  .checkbox-wrapper-22 .switch {
-    display: inline-block;
-    height: 34px;
-    position: relative;
-    width: 60px;
+.splitContainer {
+  background-color: #e9e9e9;
+  border-radius: 5px;
+  margin-top: 10px;
+}
+.split {
+  background-color: #e7e7e7;
+  display: flex;
+  width: 100%;
+  justify-content: space-around;
+  border-radius: 5px;
+  align-items: center;
+  margin: 5px 0;
+  box-shadow: none;
+  border-color: #e7e7e7;
+  h3 {
+    margin: 3 px 0;
   }
-
-  .checkbox-wrapper-22 .switch input {
-    display:none;
-  }
-
-  .checkbox-wrapper-22 .slider {
-    background-color: #ccc;
-    bottom: 0;
-    cursor: pointer;
-    left: 0;
-    position: absolute;
-    right: 0;
-    top: 0;
-    transition: .4s;
-  }
-
-  .checkbox-wrapper-22 .slider:before {
-    background-color: #fff;
-    bottom: 4px;
-    content: "";
-    height: 26px;
-    left: 4px;
-    position: absolute;
-    transition: .4s;
-    width: 26px;
-  }
-
-  .checkbox-wrapper-22 input:checked + .slider {
-    background-color: #66bb6a;
-  }
-
-  .checkbox-wrapper-22 input:checked + .slider:before {
-    transform: translateX(26px);
-  }
-
-  .checkbox-wrapper-22 .slider.round {
-    border-radius: 34px;
-  }
-
-  .checkbox-wrapper-22 .slider.round:before {
-    border-radius: 50%;
-  }
-
-
-
-
-
-
-
+}
 
   .checkbox-wrapper-30 .checkbox {
     --bg: #fff;
@@ -585,3 +558,6 @@ $color_1: #f0f0f0;
     width: 100%;
   }
 
+
+
+  

@@ -1,0 +1,37 @@
+[
+    {   "splitID": 0,   
+        "participants": [{"id":0, "name": "ger", "amount": 150},{"id":1, "name": "pablo", "amount": 300},{"id":2, "name": "walter", "amount": 789},{"id":3, "name": "nahir", "amount": 789},{"id":4, "name": "gonza", "amount": 1230}],
+        "price": 1,
+        "tipPercentage": 2,
+        "mode": "juntada",
+        "porPersona": 631.8
+    },  
+    {   "splitID": 1,
+        "participants": [{"id":0, "name": "ger", "amount": 150},{"id":1, "name": "pablo", "amount": 300},{"id":2, "name": "walter", "amount": 789},{"id":3, "name": "nahir", "amount": 789},{"id":4, "name": "gonza", "amount": 12300}, {"id":5, "name": "raul", "amount": 1230}],
+        "price": 10000,
+        "tipPercentage": 20,
+        "mode": "restaurant",
+        "porPersona": 1900
+    },
+    {   "splitID": 1,
+        "participants": [{"id":0, "name": "ger", "amount": 150},{"id":1, "name": "pablo", "amount": 300},{"id":2, "name": "walter", "amount": 789},{"id":3, "name": "nahir", "amount": 789},{"id":4, "name": "gonza", "amount": 12300}, {"id":5, "name": "raul", "amount": 1230}],
+        "price": 10000,
+        "tipPercentage": 20,
+        "mode": "restaurant",
+        "porPersona": 1900
+    },
+    {   "splitID": 1,
+        "participants": [{"id":0, "name": "ger", "amount": 150},{"id":1, "name": "pablo", "amount": 300},{"id":2, "name": "walter", "amount": 789},{"id":3, "name": "nahir", "amount": 789},{"id":4, "name": "gonza", "amount": 12300}, {"id":5, "name": "raul", "amount": 1230}],
+        "price": 10000,
+        "tipPercentage": 20,
+        "mode": "restaurant",
+        "porPersona": 1900
+    },
+    {   "splitID": 1,
+        "participants": [{"id":0, "name": "ger", "amount": 150},{"id":1, "name": "pablo", "amount": 300},{"id":2, "name": "walter", "amount": 789},{"id":3, "name": "nahir", "amount": 789},{"id":4, "name": "gonza", "amount": 12300}, {"id":5, "name": "raul", "amount": 1230}],
+        "price": 10000,
+        "tipPercentage": 20,
+        "mode": "restaurant",
+        "porPersona": 1900
+    }
+]
