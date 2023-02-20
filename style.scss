@@ -7,6 +7,9 @@ nav {
   justify-content: center;
   align-content: center;
   min-height: 30px;
+  position: fixed;
+  top: 0px;
+  grid-area: nav;
   h1 {
     padding-top: 5px;
     color: white;
@@ -15,7 +18,7 @@ nav {
 }
 
 .configs {
-  display: flex;
+  grid-area: configs;
   justify-content: space-between;
   margin-top: 15px;
   width: 100%;
@@ -29,14 +32,17 @@ nav {
 }
  
 .inputContainer {
-  background-color: rgba(221, 221, 221, 0.536);
+  grid-area: input;
+  background-color: rgba(255, 255, 255, 0.581);
+  box-shadow: rgba(123, 123, 123, 0.2) 0px 8px 24px;
   border-radius: 20px;
   padding: 20px;
-  min-height: 205px;
+  min-height: 105px;
   display: flex;
   flex-direction: column;
   justify-content: end;
 }
+
 .restaurantContainer {
   display: flex;
   flex-direction: row;
@@ -51,6 +57,7 @@ nav {
 }
 
 .resultContainer {
+  grid-area: results;
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -58,18 +65,30 @@ nav {
   justify-items: left;
   margin-top: 15px;
   h2, h3 {
-    color: #252525;
     margin: 0px;
   }
 
 }
 
+
 #restaurantNumbers, #finalNumbers, #finalParticipants, #finalResult {
   width: 100%;
   padding: 5px 7px;
-  background-color: #dddddd7d;
+  background-color: rgba(255, 255, 255, 0.581);
+  box-shadow: rgba(123, 123, 123, 0.2) 0px 8px 24px;
   margin-bottom: 5px;
   border-radius: 5px;
+  h2 {
+    font-size: x-large;
+    font-weight: bold;
+    text-align: center;
+  }
+  h3 {
+    font-size: x-large;
+  }
+  li {
+    font-size: x-large;
+  }
 }
 #modePresentation {
   width: 100%;
@@ -82,8 +101,10 @@ nav {
 
 
 .rowContainer {
+  grid-area: participants;
   width: 100%;
   padding: 0 10px 0 10px;
+  
   h2 {
     text-align: center;
     font-weight: bold;
@@ -91,6 +112,7 @@ nav {
   }
   h3 {
     text-align: center;
+    font-size: x-large;
   }
 }
 .participantsDescription {
@@ -99,13 +121,137 @@ nav {
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 10px;
-
+  margin-bottom: 7px;
+  padding: 5px;
+  border-radius: 7px;
+  background-color: rgba(255, 255, 255, 0.581);
+  box-shadow: rgba(123, 123, 123, 0.2) 0px 8px 24px;
   h3 {
-    min-width: 70px;
+    min-width: 20%;
+  }
+  h3 {
+    min-width: 20%;
   }
 }
 
+#finalResult {
+  grid-area: finalresult;
+}
+.chartContainer {
+  grid-area: chart;
+}
+.previous-config{
+  grid-area: previousConfig ;
+}
+
+@media (max-width: 1023px)  {
+  body {
+    background-color: rgba(234, 234, 234, 0.581);
+    display: flex;
+    flex-direction: column;
+  }
+  .modal-content {
+    background-color: #f7f7f7;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+  }
+  .chartContainer {
+    display: none;
+  }
+  .previousContainer{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin-right: 0;
+    margin-top: 60px;
+  }
+  .config {
+    display: flex;
+  }
+  .splitContainer{
+    background-color: #f7f7f7;
+  }
+
+}
+@media (min-width: 1024px) {
+  *{
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+  }
+  body {
+    background-color: rgba(234, 234, 234, 0.581);
+    display: grid;
+    grid-template-areas: 
+    "nav nav nav nav"
+    "previousConfig participants chart results"
+    "input participants chart results"
+    "interface participants chart results"
+    ". participants chart results";
+    grid-template-columns: 20% 27% 27% 25%;
+    align-items: start;
+  }
+  .modal-content {
+    background-color: #f7f7f7;
+    margin: 10% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 40%;
+  }
+  .rowContainer {
+    margin-top: 60px;
+  }
+  .chartContainer {
+    margin-top: 60px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    h6{
+      color:#888;
+      font-size: medium;
+      text-align: center;
+    }
+    h5 {
+      margin-top: 40px;
+      text-align: center;
+      color: rgb(194, 0, 0);
+      font-weight: 500;
+    }
+    canvas{
+      max-width: 400px;
+      max-height: 400px;
+    }
+  }
+  .previous-config{
+    margin-top: 60px;
+    grid-area: previousConfig ;
+  }
+  
+  #finalResult {
+    margin-bottom: 20px;
+  }
+  .resultContainer{
+    margin-top: 60px;
+  }
+  .splitContainer{
+    background-color: #f7f7f7;
+  }
+  .restaurantContainer{
+    h2 {
+      padding-top: 10px;
+      font-size: large;
+    }
+  }
+  .chargeParticipants {
+    h2 {
+      padding-top: 15px;
+      font-size: large;
+    }
+  }
+}
+//Inputs
 $primary: #393e3e;
 $secondary: #393e3e;
 $black: #252525;
@@ -168,22 +314,11 @@ $gray: #9b9b9b;
   border-image-slice: 1;
 }
 
-/* reset input */
-.form__field {
 
-  &:required,
-  &:invalid {
-    box-shadow: none;
-  }
-}
 
-/* demo */
 body {
-  font-family: 'Atkinson Hyperlegible', sans-serif;
-  display: flex;
-  flex-direction: column;
+  font-family: 'Noto Sans', sans-serif;
   justify-content: center;
-  align-items: center;
   min-height: 100vh;
   font-size: 1.5rem;
   background-color: #f7f7f7;
@@ -255,11 +390,6 @@ input:checked+.slider:before {
 #finalParticipants,
 #finalResult {
   width: 100%;
-
-  li,
-  h3 {
-    color: #252525;
-  }
 }
 
 
@@ -269,13 +399,18 @@ input:checked+.slider:before {
 .chargeParticipants {
   display: flex;
   flex-direction: row;
-
+  align-items: center;
+  h2 {
+    margin: 0 10px 0 15px;
+  }
   div {
-    margin-right: 10px;
+    margin-right: 2px;
+    margin-bottom: 10px;
   }
 }
 
 .interface {
+  grid-area: interface;
   width: 100%;
   margin-top: 10px;
   display: flex;
@@ -291,8 +426,8 @@ input:checked+.slider:before {
   color: rgb(33, 151, 0);
 }
 
-#errorDinero, .errorDinero {
-  color: red;
+.errorDinero {
+  color: rgb(194, 0, 0);
 }
 
 // .gradient-font {
@@ -319,10 +454,8 @@ input:checked+.slider:before {
 
 .modal-content {
   background-color: #f7f7f7;
-  margin: 15% auto;
   padding: 20px;
   border: 1px solid #888;
-  width: 80%;
 }
 
 .buttonContainer {
@@ -381,7 +514,7 @@ $color_1: #f0f0f0;
   cursor: pointer;
   display: inline-block;
   font-size: 14px;
-  font-weight: 600;
+  font-weight: 400;
   line-height: 20px;
   list-style: none;
   margin: 0;
@@ -393,6 +526,7 @@ $color_1: #f0f0f0;
   user-select: none;
   -webkit-user-select: none;
   touch-action: manipulation;
+  box-shadow: rgba(123, 123, 123, 0.2) 0px 8px 24px;
 }
 
 .button1 {
@@ -406,12 +540,12 @@ $color_1: #f0f0f0;
 
 .button3 {
   @include button();
-  background-color: #C69E38;
+  background-color: #d1a432;
 }
 
 .button4 {
   @include button();
-  background-color: #C69E38;
+  background-color: #d1a432;
   padding: 0px;
   img {
     max-width: 20px;
@@ -422,7 +556,7 @@ $color_1: #f0f0f0;
 
 .button5 {
   @include button();
-  background-color: #bf2d2b;
+  background-color: rgb(194, 0, 0);
   padding: 0px;
   img {
     max-width: 20px;
@@ -430,14 +564,7 @@ $color_1: #f0f0f0;
     margin: 10px;
   }
 }
-.previousContainer {
-  width: 80%;
-  margin-top: 10px;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-around;
-  align-items: center
-}
+
 .button6 {
   @include button();
   background-color: #0B6170;
@@ -450,6 +577,13 @@ $color_1: #f0f0f0;
     margin: 0px;
   }
 
+}
+.previousContainer {
+  grid-area: previous;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center
 }
 
 .navModal {
@@ -471,7 +605,6 @@ $color_1: #f0f0f0;
   }
 }
 .splitContainer {
-  background-color: #e9e9e9;
   border-radius: 5px;
   margin-top: 10px;
 }
@@ -561,3 +694,31 @@ $color_1: #f0f0f0;
 
 
   
+
+//   <!-- HTML !-->
+// <button class="button-2" role="button">Button 2</button>
+
+/* CSS */
+//Nuevo boton para load JSON
+.button-2 {
+  background-color: rgba(51, 51, 51, 0.05);
+  border-radius: 8px;
+  border-width: 0;
+  color: #333333;
+  cursor: pointer;
+  display: inline-block;
+  font-family: "Haas Grot Text R Web", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 20px;
+  list-style: none;
+  margin: 0;
+  padding: 10px 12px;
+  text-align: center;
+  transition: all 200ms;
+  vertical-align: baseline;
+  white-space: nowrap;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+}

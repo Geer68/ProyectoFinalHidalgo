@@ -46,19 +46,23 @@
 
 //17-02-23
 
-//  1. Agregar mas operadores ternarios                     
-//  1. Dark mode                                            
-//  4. Realizar grafico                                     
-//  1. Realizar responsive escritorio                       FALTA DE GRAFICO 
+//  1. Agregar mas operadores ternarios                     SOLUCIONADO
+//  4. Realizar grafico                                     SOLUCIONADO
+//  1. Realizar responsive escritorio                       SOLUCIONADO
 //  1. Revisar showParticipants()                           ?????
-//  1. Terminar archivo .json                               completar datos
-//  1. Falta plata o de mas no responde a la clase          
-
-
-//NODE AVERIGUAR PARA EDICION                               backend
+//  1. Terminar archivo .json                               SOLUCIONADO
+//  1. Falta plata o de mas no responde a la clase          SOLUCIONADO
+//  1. Arreglar simbolo $                                   SOLUCIONADO
+//  1. Grafico con calcular                                 SOLUCIONADO
+//  1. rowContainer alinear items                           SOLUCIONADO
+//  1. Agregar colores grafico                              
+//  1. Terminar cuenta previa 4                             SOLUCIONADO
+//  2. Revisar si se puede solucionar inputs                
+//  1. chartContainer visibility: hidden                    
+//  1. Cambiar visualmente botones JSON modal
 
 //Rubricas de Entrega final                                 REVISAR
-//Llamada fetch(), averiguar para edicion con node?         CUMPLIDO NO NODE
+//Llamada fetch(), averiguar para edicion con node?         CUMPLIDO 
 //Storage                                                   CUMPLIDO
 //Dom                                                       CUMPLIDO 
 //Librerias                                                 CUMPLIDO
@@ -110,6 +114,44 @@ function getTips() {
         return { price, tipPercentage, tipsAmount, priceWTips }
     }
 }
+
+
+//Grafico
+function updateChart(){
+        let labelChart = []
+        let colors = ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850", "#66545E", "#A39193", "#AA6F73", "#EEA990", "#F6E0B5"] //Agregar mas colores
+        let amount = []
+        let chartPercentage = 0
+        for (let p of participants){
+            labelChart.push(p.name)
+            chartPercentage += p.amount
+        }
+        for (let p of participants){
+            amount.push(Math.round((p.amount/chartPercentage)*100))
+        }
+    
+        new Chart(document.getElementById("doughnut-chart"), {
+            type: 'doughnut',
+            data: {
+              labels: labelChart,
+              datasets: [
+                {
+                  label: "Population (millions)",
+                  backgroundColor: colors, //Max capacity:
+                  data: amount 
+                }
+              ]
+            },
+            options: {
+              title: {
+                display: true,
+                text: '% de cuanto colocó cada participante'
+              }
+            }
+        })
+
+    }
+
 
 
 //Calcular
@@ -254,9 +296,7 @@ function deleteParticipant(id) {
 function showParticipants(participants) {
     if (participants.length == 0) {
         results.innerHTML = ``
-        let nuevoParticipant = document.createElement("h3")
-        nuevoParticipant.innerText = `No hay participantes ingresados`
-        results.appendChild(nuevoParticipant)
+        document.getElementsByClassName("chartContainer").style.visibility = 'hidden'
     } else {
         results.innerHTML = ``
         let h2Participants = document.createElement("h2")
@@ -276,6 +316,7 @@ function showParticipants(participants) {
             results.appendChild(nuevoParticipant)
         }
     }
+    
 }
 
 //Mostrar resultados numéricos
@@ -314,9 +355,9 @@ function showResult(total, balanceSheet, participants, porPersona) {
             finalNumbers.appendChild(numbers)
 
             let finalParticipants = document.getElementById("finalParticipants")
-            let h3Participants = document.createElement("h3")
-            h3Participants.innerText = `Nombres`
-            finalParticipants.appendChild(h3Participants)
+            let h2Participants = document.createElement("h2")
+            h2Participants.innerText = `Nombres`
+            finalParticipants.appendChild(h2Participants)
             for (let p of participants) {
                 let nuevoParticipant = document.createElement("li")
                 nuevoParticipant.innerText = `${p.name}`
@@ -328,6 +369,7 @@ function showResult(total, balanceSheet, participants, porPersona) {
             checkMoney()
             
             const { status } = checkMoney()
+            console.log(status)
             if (status == "debtor") {
                 let h3Result = document.createElement("h3")
                 h3Result.innerText = `Falta plata`
@@ -335,6 +377,7 @@ function showResult(total, balanceSheet, participants, porPersona) {
                 finalResult.appendChild(h3Result) 
             } else if (status == "extra") {
                 let h3Result = document.createElement("h3")
+                h3Result.classList.add("noErrorDinero")
                 h3Result.innerText = `Plata de mas`
                 finalResult.appendChild(h3Result)
             } else {
@@ -359,6 +402,8 @@ function showResult(total, balanceSheet, participants, porPersona) {
         if (participants.length == 0) {
             resultados.innerHTML = ''
         } else {
+            let restaurantNumbers = document.getElementById("restaurantNumbers")
+            restaurantNumbers.remove()
             let finalNumbers = document.getElementById("finalNumbers")
             let numbers = document.createElement("div")
             finalNumbers.innerHTML = ` <li>Total gastado: $${total}</li>
@@ -367,9 +412,9 @@ function showResult(total, balanceSheet, participants, porPersona) {
             finalNumbers.appendChild(numbers)
 
             let finalParticipants = document.getElementById("finalParticipants")
-            let h3Participants = document.createElement("h3")
-            h3Participants.innerText = `Participantes`
-            finalParticipants.appendChild(h3Participants)
+            let h2Participants = document.createElement("h2")
+            h2Participants.innerText = `Participantes`
+            finalParticipants.appendChild(h2Participants)
             for (let p of participants) {
                 let nuevoParticipant = document.createElement("li")
                 nuevoParticipant.innerText = `${p.name}`
@@ -394,7 +439,7 @@ function showResult(total, balanceSheet, participants, porPersona) {
             }
         }
     }
-
+    updateChart()
 }
 
 //Refresh top modal
@@ -427,7 +472,6 @@ function modal(name, amount) {
 
 //Modificar nombres/monto
 function editModal(id) {
-
     let index = id
     let foundedPosition = participants.findIndex((participants) => participants.id == index)
     let name = participants[id].name
@@ -464,8 +508,7 @@ function editModal(id) {
     }
 }
 
-//Consumo de json
-
+//Modal del consumo de json
 function modalPreviousSplits(){
     let closeName = document.getElementById("closeModal")
     var modal = document.getElementById("previousModal")
@@ -475,14 +518,14 @@ function modalPreviousSplits(){
         modal.style.display = "none"
     }
     window.onclick = function (event) {
-        if (event.target == modal) {
-            modal.style.display = "none"
+         if (event.target == modal) {
+             modal.style.display = "none"
         }
     }
 }
 
-
-function writeSplits() {
+//Funciones async para carga de JSON
+async function writeSplits() {
     let splitContainer = document.getElementById("splitContainer")
     splitContainer.innerHTML = ""
     fetch("previousSplits.json")
@@ -504,7 +547,7 @@ function writeSplits() {
     })
 }
 
-function loadSplits(id){
+async function loadSplits(id){
     fetch("previousSplits.json")
     .then((response) => response.json())
     .then((json) => {
@@ -584,6 +627,7 @@ function changeMode (){
         <label for="name" class="form__label">Propinas</label>
         </div>
         <h2>%</h2>`
+
     } else {
         localStorage.setItem("mode", "juntada")
         let textConfig = document.getElementById("textConfig")
@@ -591,6 +635,12 @@ function changeMode (){
         restaurantContainer.innerHTML = ``
     }
 }
+
+
+
+
+
+
 
 //Funcionamiento de botones
 let buttonAdd = document.getElementById("add")
