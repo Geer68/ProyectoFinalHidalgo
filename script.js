@@ -58,8 +58,10 @@
 //  1. Agregar colores grafico                              
 //  1. Terminar cuenta previa 4                             SOLUCIONADO
 //  2. Revisar si se puede solucionar inputs                
-//  1. chartContainer visibility: hidden                    
-//  1. Cambiar visualmente botones JSON modal
+//  1. chartContainer visibility: hidden                    SOLUCIONADO
+//  1. Cambiar visualmente botones JSON modal               SOLUCIONADO
+//  1. Revisar style.scss limpiar
+//  1. Agregar readme al repo
 
 //Rubricas de Entrega final                                 REVISAR
 //Llamada fetch(), averiguar para edicion con node?         CUMPLIDO 
@@ -296,12 +298,13 @@ function deleteParticipant(id) {
 function showParticipants(participants) {
     if (participants.length == 0) {
         results.innerHTML = ``
-        document.getElementsByClassName("chartContainer").style.visibility = 'hidden'
+        document.getElementById("chartContainer").style.visibility = "hidden"
     } else {
         results.innerHTML = ``
         let h2Participants = document.createElement("h2")
         h2Participants.innerText = `Participantes`
         results.appendChild(h2Participants)
+        document.getElementById("chartContainer").style.visibility = "visible"
 
         for (let p of participants) {
             let nuevoParticipant = document.createElement("div")
@@ -402,6 +405,12 @@ function showResult(total, balanceSheet, participants, porPersona) {
         if (participants.length == 0) {
             resultados.innerHTML = ''
         } else {
+            let modePresentation = document.getElementById("modePresentation")
+
+            let h2Juntada = document.createElement("h2")
+            h2Juntada.innerText = `Juntada`
+            modePresentation.appendChild(h2Juntada)
+
             let restaurantNumbers = document.getElementById("restaurantNumbers")
             restaurantNumbers.remove()
             let finalNumbers = document.getElementById("finalNumbers")
@@ -537,7 +546,7 @@ async function writeSplits() {
             let split = document.createElement("div")
             split.classList.add("split")
             split.innerHTML = `
-                <button class="split" id="splitN${previousSplit.splitID}" role="button" onclick="loadSplits(${previousSplit.splitID})">
+                <button class="buttonSplit" id="splitN${previousSplit.splitID}" role="button" onclick="loadSplits(${previousSplit.splitID})">
                     <h3>${mode}</h3>
                     <h3>${previousSplit.participants.length}</h3>
                     <h3>$${previousSplit.porPersona}</h3>
@@ -635,11 +644,6 @@ function changeMode (){
         restaurantContainer.innerHTML = ``
     }
 }
-
-
-
-
-
 
 
 //Funcionamiento de botones
@@ -780,6 +784,7 @@ if (participants == undefined) {
     localStorage.setItem("price", 0)
     localStorage.setItem("tipPercentage", 0)
     localStorage.setItem("mode", "juntada")
+
 }
 if ((participants.length !== 0) && (localStorage.getItem("mode") == "juntada")) {
     calculate(),

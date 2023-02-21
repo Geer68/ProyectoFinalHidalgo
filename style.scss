@@ -605,11 +605,11 @@ $color_1: #f0f0f0;
   }
 }
 .splitContainer {
+  background-color: rgba(234, 234, 234, 0.581);
   border-radius: 5px;
   margin-top: 10px;
 }
 .split {
-  background-color: #e7e7e7;
   display: flex;
   width: 100%;
   justify-content: space-around;
@@ -700,8 +700,9 @@ $color_1: #f0f0f0;
 
 /* CSS */
 //Nuevo boton para load JSON
-.button-2 {
-  background-color: rgba(51, 51, 51, 0.05);
+.buttonSplit {
+  background-color: rgba(255, 255, 255, 0.05);
+  box-shadow: rgba(123, 123, 123, 0.2) 0px 8px 24px;
   border-radius: 8px;
   border-width: 0;
   color: #333333;
@@ -721,4 +722,14 @@ $color_1: #f0f0f0;
   user-select: none;
   -webkit-user-select: none;
   touch-action: manipulation;
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  h3 {
+    font-size: x-large;
+    min-width: 145px;
+    text-align: center;
+    margin: 0px;
+  }
 }
