@@ -1,37 +1,69 @@
 [
-    {   "splitID": 0,   
-        "participants": [{"id":0, "name": "ger", "amount": 1569},{"id":1, "name": "pablo", "amount": 3000},{"id":2, "name": "walter", "amount": 1789},{"id":3, "name": "nahir", "amount": 989},{"id":4, "name": "gonza", "amount": 1230}],
-        "price": 0,
-        "tipPercentage": 0,
-        "mode": "juntada",
-        "porPersona": 1715
-    },  
-    {   "splitID": 1,
-        "participants": [{"id":0, "name": "juan", "amount": 1780},{"id":1, "name": "silvana", "amount": 2300},{"id":2, "name": "emanuel", "amount": 100},{"id":3, "name": "marta", "amount": 2800},{"id":4, "name": "alfredo", "amount": 3300}, {"id":5, "name": "german", "amount": 2000}, {"id":6, "name": "sonia", "amount": 700}],
-        "price": 12980,
-        "tipPercentage": 0,
-        "mode": "restaurant",
-        "porPersona": 1854
-    },
-    {   "splitID": 2,
-        "participants": [{"id":0, "name": "ger", "amount": 4000},{"id":1, "name": "mati", "amount": 1100},{"id":2, "name": "walter", "amount": 700}],
-        "price": 0,
-        "tipPercentage": 0,
-        "mode": "juntada",
-        "porPersona": 1933
-    },
-    {   "splitID": 3,
-        "participants": [{"id":0, "name": "male", "amount": 1500},{"id":1, "name": "aldi", "amount": 3200},{"id":2, "name": "joaco", "amount": 2589},{"id":3, "name": "flor", "amount": 4000},{"id":4, "name": "octa", "amount": 1300}],
-        "price": 0,
-        "tipPercentage": 0,
-        "mode": "juntada",
-        "porPersona": 2518
-    },
-    {   "splitID": 4,
-        "participants": [{"id":0, "name": "ger", "amount": 10998.18},{"id":1, "name": "pablo", "amount": 4067.82}],
-        "price": 12555.6,
-        "tipPercentage": 20,
-        "mode": "restaurant",
-        "porPersona": 7533
-    }
+  {
+    "splitID": 0,
+    "participants": [
+      { "id": 0, "name": "ger", "amount": 1569 },
+      { "id": 1, "name": "pablo", "amount": 3000 },
+      { "id": 2, "name": "walter", "amount": 1789 },
+      { "id": 3, "name": "nahir", "amount": 989 },
+      { "id": 4, "name": "gonza", "amount": 1230 }
+    ],
+    "price": 0,
+    "tipPercentage": 0,
+    "mode": "juntada",
+    "porPersona": 1715
+  },
+  {
+    "splitID": 1,
+    "participants": [
+      { "id": 0, "name": "juan", "amount": 1780 },
+      { "id": 1, "name": "silvana", "amount": 2300 },
+      { "id": 2, "name": "emanuel", "amount": 100 },
+      { "id": 3, "name": "marta", "amount": 2800 },
+      { "id": 4, "name": "alfredo", "amount": 3300 },
+      { "id": 5, "name": "german", "amount": 2000 },
+      { "id": 6, "name": "sonia", "amount": 700 }
+    ],
+    "price": 12980,
+    "tipPercentage": 0,
+    "mode": "restaurant",
+    "porPersona": 1854
+  },
+  {
+    "splitID": 2,
+    "participants": [
+      { "id": 0, "name": "ger", "amount": 4000 },
+      { "id": 1, "name": "mati", "amount": 1100 },
+      { "id": 2, "name": "walter", "amount": 700 }
+    ],
+    "price": 0,
+    "tipPercentage": 0,
+    "mode": "juntada",
+    "porPersona": 1933
+  },
+  {
+    "splitID": 3,
+    "participants": [
+      { "id": 0, "name": "male", "amount": 1500 },
+      { "id": 1, "name": "aldi", "amount": 3200 },
+      { "id": 2, "name": "joaco", "amount": 2589 },
+      { "id": 3, "name": "flor", "amount": 4000 },
+      { "id": 4, "name": "octa", "amount": 1300 }
+    ],
+    "price": 0,
+    "tipPercentage": 0,
+    "mode": "juntada",
+    "porPersona": 2518
+  },
+  {
+    "splitID": 4,
+    "participants": [
+      { "id": 0, "name": "ger", "amount": 10998.18 },
+      { "id": 1, "name": "pablo", "amount": 4067.82 }
+    ],
+    "price": 12555.6,
+    "tipPercentage": 20,
+    "mode": "restaurant",
+    "porPersona": 7533
+  }
 ]
